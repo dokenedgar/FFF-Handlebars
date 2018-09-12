@@ -11,6 +11,10 @@ let users = [
   { fname: 'Yakubu', sname: 'Frank', phone: '12345678900', username: 'Franky', pword: 'superfrank' },
   { fname: 'David', sname: 'McKenxie', phone: '09876543211', username: 'McDave', pword: 'pword' }
 ];
+let adminUsers = [
+  { username: 'lionel', password: 'messi' },
+  { username: 'sergio', password: 'ramos' }
+];
 //const initData = require('./initialdata.js');
 let foodList = [
   { foodName: 'Spaghetti', foodPrice: '350', foodDesc: 'Nicely cooked nigerian-styled spaghetti' },
@@ -142,6 +146,147 @@ app.post('/api/v1/messages/:user', (req, res) => {
   };
   messagesToAdmin.push(newMsg);
   res.send(messagesToAdmin);
+});
+
+
+//ADMIN
+app.get('/admin', (req, res) => {
+  res.render('adminsignin', { layout: null });
+});
+
+app.post('/admin', (req, res) => {
+  let result = { userFound: false };
+  const signInUser = {
+    username: req.body.uname, password: req.body.pword
+  };
+  adminUsers.forEach(function (element) {
+    if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
+      result.userFound = true;
+    }
+  });
+  res.send(result);
+});
+
+
+app.get('/admin/admindashboard', function (req, res) {
+	res.render('admindashboard', { layout: 'admin' });
+});
+
+app.get('/api/v1/admin/orders', (req, res) => {
+  res.send(orders);
+});
+
+
+// GET A USERS ORDERS
+app.get('/admin/userorders/:order', (req, res) => {
+  res.render('userorders', { layout: 'admin' });
+});
+
+app.get('/api/v1/admin/userorders/:order', (req, res) => {
+  let order = [];
+  orders.forEach(function (element, index) {
+    if (element.orderID === req.params.order) {
+      order = order.concat(element);
+    }
+  });
+  res.send(order);
+});
+
+
+//Update status of an order
+app.put('/api/v1/admin/orders/:id', (req, res) => {
+  let order = [];
+  orders.forEach(function (element, index) {
+    if (element.orderID === req.params.id) {
+      element.status = req.body.status;
+      order = order.concat(element);
+    }
+  });
+  res.send(order);
+});
+
+//FOOD LIST
+app.get('/admin/foodlist', (req, res) => {
+  res.render('adminfoodlist', { layout: 'admin' });
+});
+
+app.get('/api/v1/admin/foodlists', (req, res) => {
+  res.send(foodList);
+});
+
+
+//ADD FOOD
+app.get('/admin/addfood', (req, res) => {
+  res.render('adminaddfood', { layout: 'admin' });
+});
+
+app.post('/api/v1/admin/addfood', (req, res) => {
+  const newFood = {
+    foodName: req.body.foodName, foodPrice: req.body.foodPrice, foodDesc: req.body.foodDesc
+  };
+  foodList.push(newFood);
+  res.send(foodList);
+});
+
+
+//EDIT A FOOD DETAILS
+app.get('/admin/editfood', (req, res) => {
+  res.render('admineditfood', { layout: 'admin' });
+});
+
+app.get('/api/v1/admin/food/:name', (req, res) => {
+  let order = [];
+  foodList.forEach(function (element, index) {
+    if (element.foodName === req.params.name) {
+      order = order.concat(element);
+    }
+  });
+  res.send(order);
+});
+
+app.put('/api/v1/admin/editfood', (req, res) => {
+  let order = [];
+  foodList.forEach(function (element, index) {
+    if (element.foodName === req.body.foodName) {
+      element.foodPrice = req.body.foodPrice;
+      element.foodDesc = req.body.foodDesc;
+      order = order.concat(element);
+    }
+  });
+  res.send(order);
+});
+
+
+//DELETE FOOD =================================================>
+app.get('/admin/deletefood', (req, res) => {
+  res.render('admindeletefood', { layout: 'admin' });
+});
+app.delete('/api/v1/admin/deletefood', (req, res) => {
+  foodList.forEach(function (element, index) {
+    if (element.foodName === req.body.foodName) {
+      foodList.splice(index, 1);
+    }
+  });
+  res.send(foodList);
+});
+// ==========================================================>
+
+
+//GET MESSAGES
+app.get('/admin/messages', (req, res) => {
+  res.render('adminmessages', { layout: 'admin' });
+});
+
+app.get('/api/v1/admin/messages', (req, res) => {
+  res.send(messagesToAdmin);
+});
+
+app.post('/api/v1/admin/messages', (req, res) => {
+  const newMsg = {
+    receiver: req.body.receiver, message: req.body.message
+  };
+  messagesFromAdmin.push(newMsg);
+  res.send(messagesFromAdmin);
 });
 
 // custom 404 page

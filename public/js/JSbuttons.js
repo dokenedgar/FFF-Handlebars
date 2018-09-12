@@ -94,10 +94,10 @@ function sendMsg () {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
   }
   else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/' + name + '/messages', {
+    fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser , {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ sender: name, message: msg })
+      body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
     })
       .then((resp) => {
      	signInerrors.style.color = 'green';
@@ -116,7 +116,7 @@ function adminsignin () {
   }
   else {
   // window.location.href = './admindashboard.html';
-    fetch('https://dokenedgar.herokuapp.com/api/v2/admin', {
+    fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ uname: user_name, pword: pass_word })
@@ -126,7 +126,7 @@ function adminsignin () {
        let user = JSON.parse(JSON.stringify(data));
         if (user.userFound) {
           localStorage.AdminUser = user_name;
-          window.location.href = '/api/v2/admin/admindashboard';
+          window.location.href = '/admin/admindashboard';
         }
         else {
           signInerrors.innerHTML = 'Username or password incorrect';
