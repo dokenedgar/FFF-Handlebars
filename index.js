@@ -122,6 +122,7 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
     orderID: orderId + req.params.user, user: req.params.user, order: req.body, status: 'pending'
   };
   orders.push(newOrder);
+  res.status(201)
   res.send(orders);
 });
 
@@ -145,7 +146,7 @@ app.post('/api/v1/messages/:user', (req, res) => {
     sender: req.body.sender, message: req.body.message
   };
   messagesToAdmin.push(newMsg);
-  res.send(messagesToAdmin);
+  res.send(newMsg);
 });
 
 
