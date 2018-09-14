@@ -38,7 +38,7 @@ let messagesFromAdmin = [
 
 
 app.use(express.static(__dirname + '/public'));
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3030);
 
 
 app.get('/', function (req, res) {
