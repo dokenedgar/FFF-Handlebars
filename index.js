@@ -226,6 +226,7 @@ app.post('/api/v1/admin/addfood', (req, res) => {
     foodName: req.body.foodName, foodPrice: req.body.foodPrice, foodDesc: req.body.foodDesc
   };
   foodList.push(newFood);
+  res.status(201);
   res.send(foodList);
 });
 
@@ -292,9 +293,9 @@ app.post('/api/v1/admin/messages', (req, res) => {
 
 // custom 404 page
 app.use(function(req, res){
-res.type('text/plain');
-res.status(404);
-res.send('404 - Not Found');
+  res.type('text/plain');
+  res.status(404);
+  res.send('404 - Not Found');
 });
 /*
 app.listen(app.get('port'), function(){
