@@ -1,4 +1,6 @@
 let signInerrors = document.getElementById('errors');
+let name = document.getElementById('msgName');
+name.value = localStorage.loggedUser;
 
 function signIn () {
   let user_name = document.getElementById('txtusername').value;
@@ -88,7 +90,7 @@ function signUp () {
 }
 
 function sendMsg () {
-  let name = document.getElementById('msgName').value;
+  //let name = document.getElementById('msgName').value;
   let msg = document.getElementById('txtMsg').value;
   if (name.length < 2 || msg < 5) {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
