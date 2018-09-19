@@ -113,7 +113,7 @@ function addToOrder (CheckBoxelement) {
 
 function submitOrderButton() {
   if (item > 0) {
-    fetch('/api/v1/placeOrder/' + localStorage.loggedUser, {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/placeOrder/' + localStorage.loggedUser, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(orders)

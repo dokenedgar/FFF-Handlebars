@@ -9,14 +9,14 @@ function signIn () {
   }
   else {
     // Send data to server
-    fetch('http://localhost:3000/signin/' + user_name + '/' + pass_word)
+    fetch('https://dokenedgar.herokuapp.com/signin/' + user_name + '/' + pass_word)
       .then((resp) => resp.json())
       .then((data) => {
         let user = JSON.parse(JSON.stringify(data));
         // console.log(user)
         if (user.userFound) {
           localStorage.loggedUser = user_name; // localStorage.removeItem(key)
-          window.location.href = 'http://localhost:3000/menu';
+          window.location.href = 'https://dokenedgar.herokuapp.com/menu';
         }
         else {
           signInerrors.innerHTML = 'Username or password incorrect';
@@ -72,7 +72,7 @@ function signUp () {
   }
   else {
   // Send data to server
-    fetch('http://localhost:3000/signup', {
+    fetch('https://dokenedgar.herokuapp.com/signup', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ fname: f_name.value, sname: s_name.value, phone: phone_Num.value, username: user_name.value, pword: password.value })
@@ -94,7 +94,7 @@ function sendMsg () {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
   }
   else {
-    fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser , {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser , {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
@@ -116,7 +116,7 @@ function adminsignin () {
   }
   else {
   // window.location.href = './admindashboard.html';
-    fetch('http://localhost:3000/admin', {
+    fetch('https://dokenedgar.herokuapp.com/admin', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ uname: user_name, pword: pass_word })
