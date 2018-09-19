@@ -1,7 +1,7 @@
 let tblHistory = document.getElementById('inbox');
 let signInerrors = document.getElementById('errors');
 
-fetch('http://localhost:3000/api/v1/admin/messages')
+fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages')
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -27,7 +27,7 @@ function sendAdminMsg () {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
     }
     else {
-    fetch('http://localhost:3000/api/v1/admin/messages', {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ receiver: name, message: msg })

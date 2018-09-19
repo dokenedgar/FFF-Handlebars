@@ -1,5 +1,5 @@
 let tblHistory = document.getElementById('adminOrders');
-fetch('http://localhost:3000/api/v1/admin/orders')
+fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders')
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -14,7 +14,7 @@ fetch('http://localhost:3000/api/v1/admin/orders')
         let price = row.insertCell(4);
         let dateOrdered = row.insertCell(5);
         let status = row.insertCell(6);
-        let url = 'http://localhost:3000/admin/userorders/' + element.orderID;
+        let url = 'https://dokenedgar.herokuapp.com/admin/userorders/' + element.orderID;
         localStorage.orderID = element.orderID;
         orderID.innerHTML = '<a href= ' + url + '>' + element.orderID + '</a>';
         userID.innerHTML = element.user;
