@@ -284,11 +284,23 @@ app.get('/api/v1/admin/messages', (req, res) => {
 });
 
 app.post('/api/v1/admin/messages', (req, res) => {
-  const newMsg = {
-    receiver: req.body.receiver, message: req.body.message
-  };
-  messagesFromAdmin.push(newMsg);
-  res.send(messagesFromAdmin);
+  let result = { userFound : false };
+    users.forEach(function (element) {
+    if ((element.username === req.body.receiver)) {
+      result.userFound = true;
+      break;
+    }
+  });
+
+    if (result.userFound) {
+            const newMsg = {
+          receiver: req.body.receiver, message: req.body.message
+        };
+        messagesFromAdmin.push(newMsg);
+      }
+
+  res.send(result);
+  
 });
 
 // custom 404 page

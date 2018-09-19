@@ -32,8 +32,18 @@ function sendAdminMsg () {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ receiver: name, message: msg })
     })
-      .then((resp) => { signInerrors.style.color = 'green';
-        signInerrors.innerHTML = 'Message sent successfully'; })
+      .then((resp) => resp.json())
+      .then((data) => {
+        let user = JSON.parse(JSON.stringify(data));
+        if (user.userFound) {
+           signInerrors.style.color = 'green';
+        signInerrors.innerHTML = 'Message sent successfully'; 
+        }
+        else {
+          signInerrors.style.color = 'red';
+          signInerrors.innerHTML = 'Problem sending message. Possibly check receiver username..';
+        }
+      })
       .catch((error) => console.log(error))
   }
 }
