@@ -369,7 +369,7 @@ it('admin - api for getting messages', function () {
 			 })
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
-		 	expect(res.body).to.be.an('array');
+		 	expect(res.body).to.be.an('object');
 		 	expect(res.body).to.not.be.empty;
 		 });
 	});
