@@ -14,7 +14,7 @@ btnUpdateDetails.style.display = 'none';
 
 function getDetails () {
   let food = foodName.value;
-  fetch('http://localhost:3000/api/v1/admin/food/' + food)
+  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food)
     .then((resp) => resp.json())
     .then((data) => {
       let orders = JSON.parse(JSON.stringify(data));
@@ -46,7 +46,7 @@ function updateDetails () {
     signInerrors.innerHTML = 'Name and price have to be atleast 2 characters, while description at least 5 characters!';
   }
   else {
-    fetch('http://localhost:3000/api/v1/admin/editfood', {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/editfood', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })

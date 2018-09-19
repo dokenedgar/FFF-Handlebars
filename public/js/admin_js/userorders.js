@@ -1,7 +1,7 @@
 let tblHistory = document.getElementById('history');
 let status;
 let updateOrder;// = row.insertCell(7);
-fetch('http://localhost:3000/api/v1/admin/userorders/' + localStorage.orderID)
+fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage.orderID)
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -18,7 +18,7 @@ fetch('http://localhost:3000/api/v1/admin/userorders/' + localStorage.orderID)
         status = row.insertCell(6);
         updateOrder = row.insertCell(7);
 
-        let url = 'http://localhost:3000/admin/userorders/' + element.orderID;
+        let url = 'https://dokenedgar.herokuapp.com/admin/userorders/' + element.orderID;
         localStorage.orderID = element.orderID;
         orderID.innerHTML = '<a href= ' + url + '>' + element.orderID + '</a>';
         userID.innerHTML = element.user;
@@ -37,14 +37,14 @@ fetch('http://localhost:3000/api/v1/admin/userorders/' + localStorage.orderID)
 function updateOrderFunction () {
 			//Send data to server
 			let newStatus = document.getElementById('status').value;
-		fetch('http://localhost:3000/api/v1/admin/orders/'+localStorage.orderID, {
+		fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/'+localStorage.orderID, {
 			method:'PUT',
 			headers: {'content-type': 'application/json' },
 			body: JSON.stringify({orderID:localStorage.orderID, status:newStatus})
 		})
 		.then((resp) =>  resp.json())
 		.then((data) => { 
-					window.location.href = 'http://localhost:3000/admin/userorders/'+localStorage.orderID;
+					window.location.href = 'https://dokenedgar.herokuapp.com/admin/userorders/'+localStorage.orderID;
 				 })
 		.catch((err) => console.log(err))//window.alert(err))// 
 }

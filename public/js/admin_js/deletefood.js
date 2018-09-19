@@ -14,7 +14,7 @@ btnUpdateDetails.style.display = 'none';
 
 function getDetails () {
   let food = foodName.value;
-  fetch('http://localhost:3000/api/v1/admin/food/' + food)
+  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food)
     .then((resp) => resp.json())
     .then((data) => {
       let orders = JSON.parse(JSON.stringify(data));
@@ -45,7 +45,7 @@ function deleteDetails () {
   let f_price = foodPrice.value;
   let f_desc = foodDesc.value;
   let signInerrors = document.getElementById('errors');
-  fetch('http://localhost:3000/api/v1/admin/deletefood', {
+  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/deletefood', {
     method: 'DELETE',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })
