@@ -288,7 +288,6 @@ app.post('/api/v1/admin/messages', (req, res) => {
     users.forEach(function (element) {
     if ((element.username === req.body.receiver)) {
       result.userFound = true;
-      break;
     }
   });
 
