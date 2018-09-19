@@ -17,7 +17,7 @@ function signIn () {
         let user = JSON.parse(JSON.stringify(data));
         // console.log(user)
         if (user.userFound) {
-          localStorage.loggedUser = user_name; // localStorage.removeItem(key)
+          localStorage.loggedUser = user_name; // localStorage.removeItem(loggedUser)
           window.location.href = 'https://dokenedgar.herokuapp.com/menu';
         }
         else {

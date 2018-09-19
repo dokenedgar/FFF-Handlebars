@@ -374,6 +374,7 @@ it('admin - api for getting messages', function () {
 		 });
 	});
 
+
 it('404 Page', function () {
 		return chai.request(app)
 		 .get('/xyz')

@@ -76,6 +76,10 @@ app.post('/signup', (req, res) => {
   res.send(newUser);
 });
 
+app.get('/logout', function (req, res) {
+  res.render('logout', { layout: null });
+});
+
 
 app.get('/menu', function (req, res) {
 	res.render('dashboard');
