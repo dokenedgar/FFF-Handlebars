@@ -218,8 +218,8 @@ describe('ADMIN API TESTS', function () {
     return chai.request(app)
      .get('/api/v1/admin/orders')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
      });
   });
 
@@ -235,8 +235,8 @@ describe('ADMIN API TESTS', function () {
     return chai.request(app)
      .get('/api/v1/admin/userorders/orderID')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
      });
   });
 
@@ -244,8 +244,8 @@ describe('ADMIN API TESTS', function () {
     return chai.request(app)
      .put('/api/v1/admin/orders/orderID')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
      });
   });
 
@@ -261,9 +261,9 @@ it('admin - api for gettiing food list', function () {
     return chai.request(app)
      .get('/api/v1/admin/foodlists')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      expect(res.body).to.not.be.empty;
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
+      //expect(res.body).to.not.be.empty;
      });
   });
 
@@ -284,9 +284,9 @@ it('admin - api endpoint for adding food', function () {
     foodDesc: ' a way to advertise and describe the food'
    })
    .then(function (res) {
-    expect(res).to.have.status(201);
-    expect(res.body).to.be.an('array');
-    expect(res.body).to.not.be.empty;
+    expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
+    //expect(res.body).to.not.be.empty;
    })
 });
 
@@ -302,9 +302,9 @@ it('admin - api for gettiing food details to edit', function () {
     return chai.request(app)
      .get('/api/v1/admin/food/foodName')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      expect(res.body).to.be.empty;
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
+      //expect(res.body).to.be.empty;
      });
   });
 
@@ -317,9 +317,9 @@ it('admin - api for gettiing food details to edit', function () {
         foodDesc: ' a way to advertise and describe the food'
        })
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      expect(res.body[0].foodPrice).to.equal('1050');
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
+      //expect(res.body[0].foodPrice).to.equal('1050');
      });
   });
 
@@ -338,9 +338,9 @@ it('admin - api for deleting a food from the menu', function () {
         foodName: 'Rice'
        })
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      expect(res.body).to.not.be.empty;
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
+      //expect(res.body).to.not.be.empty;
      });
   });
 
@@ -356,8 +356,8 @@ it('admin - api for getting messages', function () {
     return chai.request(app)
      .get('/api/v1/admin/messages')
      .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
+      expect(res).to.have.status(403);
+      expect(res.body).to.be.an('object');
    });
   });
 
@@ -369,9 +369,9 @@ it('admin - api for getting messages', function () {
         message: ' a way to advertise and describe the food'
        })
      .then(function (res) {
-      expect(res).to.have.status(200);
+      expect(res).to.have.status(403);
       expect(res.body).to.be.an('object');
-      expect(res.body).to.not.be.empty;
+      //expect(res.body).to.not.be.empty;
      });
   });
 

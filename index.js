@@ -42,6 +42,9 @@ let messagesFromAdmin = [
 app.use(express.static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3000);
 
+//Middleware gets called for all routes starting with /api
+//Inorder to check for the presence of a token
+app.use('/api', verifyToken);
 
 app.get('/', function (req, res) {
 	res.render('index', { layout: 'guest' , user: {guest:true}, menu: JSON.stringify(foodList) } );
@@ -83,7 +86,8 @@ function verifyToken (req, res, next) {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
     req.token = bearerToken;
-    next()
+    //Add verification of the token here as well. Such that when the route is finally reached, just send back the data
+    next();
   }
   else {
     res.sendStatus(403);
@@ -112,7 +116,11 @@ app.get('/menu', function (req, res) {
 	res.render('dashboard');
 });
 
-app.get('/api/v1/menu', verifyToken, function (req, res) {
+app.get('/menu/api/v1/menu', function (req, res) {
+      res.send(foodList);
+});
+
+app.get('/api/v1/menu', function (req, res) {
   
   jwt.verify(req.token, 'tre-lala', (err, authData) => {
     if(err){
@@ -130,7 +138,7 @@ app.get('/orders', function (req, res) {
 	res.render('history');
 });
 // appi for getting all orders made by a user
-app.get('/api/v1/orders/:user', verifyToken, (req, res) => {
+app.get('/api/v1/orders/:user', (req, res) => {
   let order = [];
     jwt.verify(req.token, 'tre-lala', (err, authData) => {
       if(err){
@@ -151,7 +159,7 @@ app.get('/orders/:id', function (req, res) {
 	res.render('getorder');
 });
 
-app.get('/api/v1/order/:id', verifyToken, function (req, res) {
+app.get('/api/v1/order/:id', function (req, res) {
    let order = [];
 
    jwt.verify(req.token, 'tre-lala', (err, authData) => {
@@ -171,7 +179,7 @@ app.get('/api/v1/order/:id', verifyToken, function (req, res) {
 
 
 // PLACE AN ORDER
-app.post('/api/v1/placeOrder/:user', verifyToken, (req, res) => {
+app.post('/api/v1/placeOrder/:user', (req, res) => {
   console.log(req.body);
 
     jwt.verify(req.token, 'tre-lala', (err, authData) => {
@@ -195,7 +203,7 @@ app.get('/messages', function (req, res) {
 	res.render('messages');
 });
 
-app.get('/api/v1/messages/:user', verifyToken, function (req, res) {
+app.get('/api/v1/messages/:user', function (req, res) {
    let msgs = [];
 
       jwt.verify(req.token, 'tre-lala', (err, authData) => {
@@ -213,7 +221,7 @@ app.get('/api/v1/messages/:user', verifyToken, function (req, res) {
 
 });
 
-app.post('/api/v1/messages/:user', verifyToken, (req, res) => {
+app.post('/api/v1/messages/:user', (req, res) => {
 
         jwt.verify(req.token, 'tre-lala', (err, authData) => {
         if(err){
@@ -242,9 +250,17 @@ app.post('/admin', (req, res) => {
   adminUsers.forEach(function (element) {
     if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
       result.userFound = true;
+      jwt.sign( { signInUser }, 'admin-sec-key ', (err, token) => {
+        result.token = token;
+        res.send(result);
+      })
     }
   });
-  res.send(result);
+
+  if (!result.userFound) {
+    res.send(result);
+  }
+
 });
 
 
