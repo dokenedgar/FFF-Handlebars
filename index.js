@@ -250,7 +250,7 @@ app.post('/admin', (req, res) => {
   adminUsers.forEach(function (element) {
     if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
       result.userFound = true;
-      jwt.sign( { signInUser }, 'admin-sec-key ', (err, token) => {
+      jwt.sign( { signInUser }, 'admin-sec-key', (err, token) => {
         result.token = token;
         res.send(result);
       })
