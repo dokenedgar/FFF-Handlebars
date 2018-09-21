@@ -86,10 +86,11 @@ describe('Userstest with chai http', function () {
        it('api endpoint for list of food', function () {
     return chai.request(app)
       .get('/api/v1/menu')
+      //.set('authorization' : 'Bearer ' + localStorage.fff_token)
       .then(function (res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
-        expect(res.body[0]).to.an('object');
+        expect(res).to.have.status(403);
+        //expect(res.body).to.be.an('array');
+        expect(res.body).to.an('object');
       });
   });
 
@@ -105,8 +106,8 @@ describe('Userstest with chai http', function () {
     return chai.request(app)
       .get('/api/v1/orders/ausername')
       .then(function (res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res).to.have.status(403);
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -122,8 +123,8 @@ describe('Userstest with chai http', function () {
     return chai.request(app)
       .get('/api/v1/order/orderid')
       .then(function (res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res).to.have.status(403);
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -137,9 +138,9 @@ it('api for placing a new order', function () {
         
       })
       .then(function (res) {
-        expect(res).to.have.status(201);
-        expect(res.body).to.be.an('array');
-        expect(res.body[0].user).to.equal('Peter');
+        expect(res).to.have.status(403);
+        expect(res.body).to.be.an('object');
+        //expect(res.body[0].user).to.equal('Peter');
       });
   });
 
@@ -155,9 +156,9 @@ it('api for placing a new order', function () {
     return chai.request(app)
       .get('/api/v1/messages/McDave')
       .then(function (res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
-        expect(res.body[0].receiver).to.equal('McDave');
+        expect(res).to.have.status(403);
+        expect(res.body).to.be.an('object');
+        //expect(res.body[0].receiver).to.equal('McDave');
       });
   });
 
@@ -169,9 +170,9 @@ it('api for placing a new order', function () {
         message: 'Hello Hi, am MI my low is high..',
       })
       .then(function (res) {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(403);
         expect(res.body).to.be.an('object');
-        expect(res.body.sender).to.equal('Peter');
+        //expect(res.body.sender).to.equal('Peter');
       });
   });   
 
