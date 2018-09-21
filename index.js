@@ -114,14 +114,18 @@ app.get('/menu', function (req, res) {
 });
 
 app.get('/menu/api/v1/menu', function (req, res) {
-	
-  //jwt.verify(req.token, 'tre-lala', (err, authData) => {
-    //if(err){
-     // res.sendStatus(403);
-    //}else {
       res.send(foodList);
-    //}
-  //})
+});
+
+app.get('/api/v1/menu', function (req, res) {
+  
+  jwt.verify(req.token, 'tre-lala', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+      res.send(foodList);
+    }
+  })
 
 });
 

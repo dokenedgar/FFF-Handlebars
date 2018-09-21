@@ -1,7 +1,7 @@
 let tblHistory = document.getElementById('food-menu');
 
 //fetch('https://dokenedgar.herokuapp.com/index/foodlist') window.location.href = 'http://localhost:3000/menu';
-fetch('http://localhost:3000/menu/api/v1/menu', { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
+fetch('http://localhost:3000/api/v1/menu', { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => {
       return resp.json();
   })
