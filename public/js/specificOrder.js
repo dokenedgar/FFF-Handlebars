@@ -1,5 +1,5 @@
 let tblHistory = document.getElementById('history');
-fetch('https://dokenedgar.herokuapp.com/api/v1/order/' + localStorage.orderID)
+fetch('https://dokenedgar.herokuapp.com/api/v1/order/' + localStorage.orderID, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -24,4 +24,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/order/' + localStorage.orderID)
       });
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
