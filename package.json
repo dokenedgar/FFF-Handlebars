@@ -15,6 +15,7 @@
     "coveralls": "^3.0.2",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
+    "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1"
   }
