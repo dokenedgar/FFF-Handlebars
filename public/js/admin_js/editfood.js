@@ -14,7 +14,7 @@ btnUpdateDetails.style.display = 'none';
 
 function getDetails () {
   let food = foodName.value;
-  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food)
+  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
     .then((resp) => resp.json())
     .then((data) => {
       let orders = JSON.parse(JSON.stringify(data));
@@ -34,7 +34,7 @@ function getDetails () {
       btngetDetails.style.display = 'none';
 
     })
-    .catch((err) => console.log(err))
+    .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
 }
 
 function updateDetails () {
@@ -48,11 +48,11 @@ function updateDetails () {
   else {
     fetch('https://dokenedgar.herokuapp.com/api/v1/admin/editfood', {
       method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.admin_token },
       body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })
     })
       .then((resp) => { signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food edited successfully'; })
-      .catch((error) => console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
   }
 }

@@ -9,13 +9,13 @@ function addFood () {
   else {
     fetch('https://dokenedgar.herokuapp.com/api/v1/admin/addfood', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.admin_token },
       body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })
     })
       .then((resp) => {
       	signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food added successfully';
       })
-      .catch((error) => console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
   }
 }

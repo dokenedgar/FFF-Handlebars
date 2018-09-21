@@ -18,6 +18,7 @@ function signIn () {
         // console.log(user)
         if (user.userFound) {
           localStorage.loggedUser = user_name; // localStorage.removeItem(loggedUser)
+          localStorage.fff_token = user.token;
           window.location.href = 'https://dokenedgar.herokuapp.com/menu';
         }
         else {
@@ -131,6 +132,7 @@ function adminsignin () {
        let user = JSON.parse(JSON.stringify(data));
         if (user.userFound) {
           localStorage.AdminUser = user_name;
+          localStorage.admin_token = user.token;
           window.location.href = '/admin/admindashboard';
         }
         else {

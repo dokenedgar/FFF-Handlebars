@@ -1,5 +1,5 @@
 let tblHistory = document.getElementById('adminOrders');
-fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders')
+fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -26,4 +26,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders')
       });
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(err))
