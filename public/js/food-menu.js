@@ -17,4 +17,6 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/menu')
       price.innerHTML = elementf.foodPrice;
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+
+  //Check jwt requirements

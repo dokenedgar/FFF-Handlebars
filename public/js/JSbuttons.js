@@ -98,13 +98,16 @@ function sendMsg () {
   else {
     fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser , {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.fff_token },
       body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
     })
+    .then((resp) => {
+        return resp.json();
+        })
       .then((resp) => {
      	signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Message sent successfully'; })
-      .catch((error) => console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }
 
