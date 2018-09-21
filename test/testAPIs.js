@@ -85,7 +85,7 @@ describe('Userstest with chai http', function () {
 
        it('api endpoint for list of food', function () {
     return chai.request(app)
-      .get('/api/v1/menu')
+      .get('/menu/api/v1/menu')
       //.set('authorization' : 'Bearer ' + localStorage.fff_token)
       .then(function (res) {
         expect(res).to.have.status(403);
