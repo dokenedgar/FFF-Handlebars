@@ -115,7 +115,7 @@ function submitOrderButton() {
   if (item > 0) {
     fetch('/api/v1/placeOrder/' + localStorage.loggedUser, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.fff_token },
       body: JSON.stringify(orders)
     })
       .then((resp) => resp.json())
@@ -123,6 +123,6 @@ function submitOrderButton() {
         let obj = JSON.parse(JSON.stringify(data));
         window.location.href = '/orders' ; //+ localStorage.loggedUser + '/orders';
       })
-      .catch((err) => console.log(err))
+      .catch((err) => window.location.href = 'http://localhost:3000/signin') //console.log(err))
   }
 }

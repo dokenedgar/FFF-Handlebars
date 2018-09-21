@@ -13,9 +13,9 @@ function signIn () {
       .then((resp) => resp.json())
       .then((data) => {
         let user = JSON.parse(JSON.stringify(data));
-        // console.log(user)
         if (user.userFound) {
           localStorage.loggedUser = user_name; // localStorage.removeItem(key)
+          localStorage.fff_token = user.token;
           window.location.href = 'http://localhost:3000/menu';
         }
         else {
@@ -96,13 +96,16 @@ function sendMsg () {
   else {
     fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser , {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.fff_token },
       body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
     })
       .then((resp) => {
-     	signInerrors.style.color = 'green';
+        return resp.json();
+        })
+      .then((resp) => {
+     	  signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Message sent successfully'; })
-      .catch((error) => console.log(error))
+      .catch((err) => window.location.href = 'http://localhost:3000/signin') //console.log(err))
   }
 }
 

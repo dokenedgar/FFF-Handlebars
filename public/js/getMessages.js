@@ -1,6 +1,6 @@
 let tblHistory = document.getElementById('inbox');
 
-fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser)
+fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -16,4 +16,4 @@ fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser)
       dateReceived.innerHTML = new Date().toUTCString();
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => window.location.href = 'http://localhost:3000/signin') //console.log(err))

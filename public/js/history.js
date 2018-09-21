@@ -1,5 +1,5 @@
 let tblHistory = document.getElementById('history');
-fetch('http://localhost:3000/api/v1/orders/' + localStorage.loggedUser)
+fetch('http://localhost:3000/api/v1/orders/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -25,4 +25,4 @@ fetch('http://localhost:3000/api/v1/orders/' + localStorage.loggedUser)
       });
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => window.location.href = 'http://localhost:3000/signin') //console.log(err))

@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const jwt = require('jsonwebtoken');
 const handlebars = require('express-handlebars').create({ defaultLayout:'main' });
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.use(express.json());
@@ -55,14 +57,39 @@ app.get('/signin/:uname/:pword', (req, res) => {
   const signInUser = {
     username: req.params.uname, password: req.params.pword
   };
+
   users.forEach(function (element) {
     if ((element.username === signInUser.username) && (element.pword === signInUser.password)) {
       result.userFound = true;
+      //Create jwt token for the user
+      jwt.sign( { signInUser }, 'tre-lala', (err, token) => {
+        //result.token = token;
+        result.token = token;
+        res.send(result);
+      })
     }
   });
-  res.send(result);
+
+  if (!result.userFound) {
+    res.send(result);
+  }
+
 });
 
+//===================VERIFY TOKEN========================>
+function verifyToken (req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next()
+  }
+  else {
+    res.sendStatus(403);
+  }
+}
+//=======================================================>
 
 app.get('/signup', function (req, res) {
 	res.render('signup', { layout: 'guest' });
@@ -80,50 +107,84 @@ app.post('/signup', (req, res) => {
 app.get('/menu', function (req, res) {
 	res.render('dashboard');
 });
-app.get('/api/v1/menu', function (req, res) {
-	res.send(foodList);
+
+app.get('/api/v1/menu', verifyToken, function (req, res) {
+	
+  jwt.verify(req.token, 'tre-lala', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+      res.send(foodList);
+      //res.send(authData);
+    }
+  })
+
 });
 
 // html for getting all orders by a user
 app.get('/orders', function (req, res) {
 	res.render('history');
 });
+
 // appi for getting all orders made by a user
-app.get('/api/v1/orders/:user', (req, res) => {
+app.get('/api/v1/orders/:user', verifyToken, (req, res) => {
   let order = [];
-  orders.forEach(function (element, index) {
-    if (element.user === req.params.user) {
-      order = order.concat(element);
+    jwt.verify(req.token, 'tre-lala', (err, authData) => {
+      if(err){
+        res.sendStatus(403);
+      }else {
+        orders.forEach(function (element, index) {
+        if (element.user === req.params.user) {
+          order = order.concat(element);
+          }
+        });
+        res.send(order);
     }
-  });
-  res.send(order);
+  })
 });
 
 //html for getting specific orders using order id, its api is below it
 app.get('/orders/:id', function (req, res) {
 	res.render('getorder');
 });
-app.get('/api/v1/order/:id', function (req, res) {
+
+app.get('/api/v1/order/:id', verifyToken, function (req, res) {
 	 let order = [];
-  orders.forEach(function (element, index) {
-    if (element.orderID === req.params.id) {
-      order = order.concat(element);
+
+   jwt.verify(req.token, 'tre-lala', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+          orders.forEach(function (element, index) {
+            if (element.orderID === req.params.id) {
+              order = order.concat(element);
+            }
+          });
+      res.send(order);
     }
-  });
-  res.send(order);
+  })
+
 });
 
 
 // PLACE AN ORDER
-app.post('/api/v1/placeOrder/:user', (req, res) => {
+app.post('/api/v1/placeOrder/:user', verifyToken, (req, res) => {
   console.log(req.body);
-  let orderId = Math.floor(Math.random() * 12345);
-  const newOrder = {
-    orderID: orderId + req.params.user, user: req.params.user, order: req.body, status: 'pending'
-  };
-  orders.push(newOrder);
-  res.status(201)
-  res.send(orders);
+
+    jwt.verify(req.token, 'tre-lala', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        let orderId = Math.floor(Math.random() * 12345);
+        const newOrder = {
+          orderID: orderId + req.params.user, user: req.params.user, order: req.body, status: 'pending'
+        };
+        orders.push(newOrder);
+        res.status(201)
+        res.send(orders);
+      }
+  })
+
 });
 
 
@@ -131,22 +192,38 @@ app.get('/messages', function (req, res) {
 	res.render('messages');
 });
 
-app.get('/api/v1/messages/:user', function (req, res) {
+app.get('/api/v1/messages/:user', verifyToken, function (req, res) {
 	 let msgs = [];
-  messagesFromAdmin.forEach(function (element, index) {
-    if (element.receiver === req.params.user) {
-      msgs = msgs.concat(element);
-    }
-  });
-  res.send(msgs);
+
+      jwt.verify(req.token, 'tre-lala', (err, authData) => {
+        if(err){
+          res.sendStatus(403);
+        }else {
+          messagesFromAdmin.forEach(function (element, index) {
+            if (element.receiver === req.params.user) {
+              msgs = msgs.concat(element);
+            }
+        });
+        res.send(msgs);
+      }
+  })
+
 });
 
-app.post('/api/v1/messages/:user', (req, res) => {
-  const newMsg = {
-    sender: req.body.sender, message: req.body.message
-  };
-  messagesToAdmin.push(newMsg);
-  res.send(newMsg);
+app.post('/api/v1/messages/:user', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, 'tre-lala', (err, authData) => {
+        if(err){
+          res.sendStatus(403);
+        }else {
+          const newMsg = {
+            sender: req.body.sender, message: req.body.message
+          };
+          messagesToAdmin.push(newMsg);
+          res.send(newMsg);
+      }
+  })
+
 });
 
 
