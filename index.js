@@ -86,7 +86,8 @@ function verifyToken (req, res, next) {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
     req.token = bearerToken;
-    //Add verification of the token here as well. Such that when the route is finally reached, just send back the data
+    //Add verification of the token here as well.
+    //Such that when the route is finally reached, just send back the data
     next();
   }
   else {
@@ -127,7 +128,6 @@ app.get('/api/v1/menu', function (req, res) {
       res.sendStatus(403);
     }else {
       res.send(foodList);
-      //res.send(authData);
     }
   })
 
@@ -269,7 +269,13 @@ app.get('/admin/admindashboard', function (req, res) {
 });
 
 app.get('/api/v1/admin/orders', (req, res) => {
-  res.send(orders);
+    jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+      res.send(orders);
+    }
+  })
 });
 
 
@@ -280,25 +286,38 @@ app.get('/admin/userorders/:order', (req, res) => {
 
 app.get('/api/v1/admin/userorders/:order', (req, res) => {
   let order = [];
-  orders.forEach(function (element, index) {
-    if (element.orderID === req.params.order) {
-      order = order.concat(element);
+
+    jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        orders.forEach(function (element, index) {
+        if (element.orderID === req.params.order) {
+          order = order.concat(element);
+        }
+      });
+      res.send(order);
     }
-  });
-  res.send(order);
+  })
 });
 
 
 //Update status of an order
 app.put('/api/v1/admin/orders/:id', (req, res) => {
   let order = [];
-  orders.forEach(function (element, index) {
-    if (element.orderID === req.params.id) {
-      element.status = req.body.status;
-      order = order.concat(element);
+  jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        orders.forEach(function (element, index) {
+          if (element.orderID === req.params.id) {
+            element.status = req.body.status;
+            order = order.concat(element);
+          }
+        });
+        res.send(order);
     }
-  });
-  res.send(order);
+  })
 });
 
 //FOOD LIST
@@ -307,7 +326,13 @@ app.get('/admin/foodlist', (req, res) => {
 });
 
 app.get('/api/v1/admin/foodlists', (req, res) => {
-  res.send(foodList);
+    jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+      res.send(foodList);
+    }
+  })
 });
 
 
@@ -317,12 +342,20 @@ app.get('/admin/addfood', (req, res) => {
 });
 
 app.post('/api/v1/admin/addfood', (req, res) => {
-  const newFood = {
-    foodName: req.body.foodName, foodPrice: req.body.foodPrice, foodDesc: req.body.foodDesc
-  };
-  foodList.push(newFood);
-  res.status(201);
-  res.send(foodList);
+
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        const newFood = {
+          foodName: req.body.foodName, foodPrice: req.body.foodPrice, foodDesc: req.body.foodDesc
+        };
+        foodList.push(newFood);
+        res.status(201);
+        res.send(foodList);
+    }
+  })
+
 });
 
 
@@ -333,17 +366,27 @@ app.get('/admin/editfood', (req, res) => {
 
 app.get('/api/v1/admin/food/:name', (req, res) => {
   let order = [];
-  foodList.forEach(function (element, index) {
-    if (element.foodName === req.params.name) {
-      order = order.concat(element);
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        foodList.forEach(function (element, index) {
+          if (element.foodName === req.params.name) {
+            order = order.concat(element);
+          }
+        });
+        res.send(order);
     }
-  });
-  res.send(order);
+  })
 });
 
 app.put('/api/v1/admin/editfood', (req, res) => {
   let order = [];
-  foodList.forEach(function (element, index) {
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        foodList.forEach(function (element, index) {
     if (element.foodName === req.body.foodName) {
       element.foodPrice = req.body.foodPrice;
       element.foodDesc = req.body.foodDesc;
@@ -351,6 +394,8 @@ app.put('/api/v1/admin/editfood', (req, res) => {
     }
   });
   res.send(order);
+    }
+  })
 });
 
 
@@ -359,12 +404,19 @@ app.get('/admin/deletefood', (req, res) => {
   res.render('admindeletefood', { layout: 'admin' });
 });
 app.delete('/api/v1/admin/deletefood', (req, res) => {
-  foodList.forEach(function (element, index) {
+
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+        foodList.forEach(function (element, index) {
     if (element.foodName === req.body.foodName) {
       foodList.splice(index, 1);
     }
   });
   res.send(foodList);
+    }
+  })
 });
 // ==========================================================>
 
@@ -375,12 +427,23 @@ app.get('/admin/messages', (req, res) => {
 });
 
 app.get('/api/v1/admin/messages', (req, res) => {
-  res.send(messagesToAdmin);
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+      res.send(messagesToAdmin);
+    }
+  })
 });
 
 app.post('/api/v1/admin/messages', (req, res) => {
-  let result = { userFound : false };
-    users.forEach(function (element) {
+  let result = { userFound : false };  
+
+      jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
+    if(err){
+      res.sendStatus(403);
+    }else {
+          users.forEach(function (element) {
     if ((element.username === req.body.receiver)) {
       result.userFound = true;
     }
@@ -394,7 +457,8 @@ app.post('/api/v1/admin/messages', (req, res) => {
       }
 
   res.send(result);
-  
+    }
+  })
 });
 
 // custom 404 page
