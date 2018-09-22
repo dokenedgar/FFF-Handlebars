@@ -1,7 +1,6 @@
 'use strict';
 
-//let request = require('request');
-let assert = require('assert');
+const assert = require('assert');
 
 const expect = require('chai').expect;
 // const { expect } = require('chai');
@@ -10,60 +9,58 @@ const chai = require('chai');
 chai.use(require('chai-http'));
 const app = require('../index.js');
 
-let jwt_token;
-let admin_jwt_token;
-
+let jwtToken;
+let adminJwtToken;
 
 describe('Userstest with chai http', function () {
   this.timeout(5000);
 
-  it('Home page should. return status code of 200', function () {
+  it('Home page should. return status code of 200', () => {
     return chai.request(app)
       .get('/')
-      .then(function (res) {
+      .then( (res) => {
         expect(res).to.have.status(200);
       });
   });
 
-  it('signin page return status code of 200', function () {
+  it('signin page return status code of 200', () => {
     return chai.request(app)
       .get('/signin')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-  it('user authentication - user not found', function () {
+  it('user authentication - user not found', () => {
     return chai.request(app)
       .get('/signin/username/password')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an("object");
+        expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(false);
       });
   });
 
-    it('user authentication - user found', function () {
+  it('user authentication - user found', () => {
     return chai.request(app)
       .get('/signin/McDave/pword')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an("object");
+        expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(true);
-        jwt_token = res.body.token;
-
+        jwtToken = res.body.token;
       });
   });
 
-    it('signup page return status code of 200', function () {
+  it('signup page return status code of 200', () => {
     return chai.request(app)
       .get('/signup')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-     it('signin up a new user', function () {
+   it('signin up a new user', () => {
     return chai.request(app)
       .post('/signup')
       .send({
@@ -73,335 +70,322 @@ describe('Userstest with chai http', function () {
         username: 'peter007',
         pword: 'm@rkp3t3r'
       })
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an("object");
+        expect(res.body).to.be.an('object');
         expect(res.body.fname).to.equal('Peter');
       });
   });
 
-     it('menu page return status code of 200', function () {
+  it('menu page return status code of 200', () => {
     return chai.request(app)
       .get('/menu')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-       it('api endpoint for list of food', function () {
+  it('api endpoint for list of food', () => {
     return chai.request(app)
       .get('/api/v1/menu')
-      .set('authorization' , 'Bearer ' + jwt_token)
-      .then(function (res) {
+      .set('authorization', `Bearer ${jwtToken}`)
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
-        //expect(res.body).to.an('object');
       });
   });
 
-       it('getting a users order history', function () {
+  it('getting a users order history', () => {
     return chai.request(app)
       .get('/orders')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-     it('api endpoint for getting users orders', function () {
+  it('api endpoint for getting users orders', () => {
     return chai.request(app)
       .get('/api/v1/orders/ausername')
-      .set('authorization' , 'Bearer ' + jwt_token)
-      .then(function (res) {
+      .set('authorization', `Bearer ${jwtToken}`)
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
       });
   });
 
-       it('getting a users specific order history', function () {
+  it('getting a users specific order history', () => {
     return chai.request(app)
       .get('/orders/orderid')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-     it('api endpoint for getting users specific order', function () {
+  it('api endpoint for getting users specific order', () => {
     return chai.request(app)
       .get('/api/v1/order/orderid')
-      .set('authorization' , 'Bearer ' + jwt_token)
-      .then(function (res) {
+      .set('authorization', `Bearer ${jwtToken}`)
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
       });
   });
 
-it('api for placing a new order', function () {
+  it('api for placing a new order', () => {
     return chai.request(app)
       .post('/api/v1/placeOrder/Peter')
-      .set('authorization' , 'Bearer ' + jwt_token)
+      .set('authorization', `Bearer ${jwtToken}`)
       .send({
         body: [
-          {food: 'Rice', price: '350', quantity: '1'}
-        ]
-        
+          { food: 'Rice', price: '350', quantity: '1' }
+        ]        
       })
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(201);
         expect(res.body).to.be.an('array');
-        //expect(res.body[0].user).to.equal('Peter');
       });
   });
 
-     it('messages page, status expected to be 200', function () {
+  it('messages page, status expected to be 200', () => {
     return chai.request(app)
       .get('/messages')
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
       });
   });
 
-      it('api endpoint for getting a users messages', function () {
+  it('api endpoint for getting a users messages', () => {
     return chai.request(app)
       .get('/api/v1/messages/McDave')
-      .set('authorization' , 'Bearer ' + jwt_token)
-      .then(function (res) {
+      .set('authorization', `Bearer ${jwtToken}`)
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
-        //expect(res.body[0].receiver).to.equal('McDave');
       });
   });
 
-     it('api endpoint for sending message to admin', function () {
+  it('api endpoint for sending message to admin', () => {
     return chai.request(app)
       .post('/api/v1/messages/Peter')
-      .set('authorization' , 'Bearer ' + jwt_token)
+      .set('authorization', `Bearer ${jwtToken}`)
       .send({
         sender: 'Peter',
         message: 'Hello Hi, am MI my low is high..',
       })
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
-        //expect(res.body.sender).to.equal('Peter');
       });
-  });   
-
+  });
 });
 
 
-//ADMIN
+// ADMIN
 
 describe('ADMIN API TESTS', function () {
   this.timeout(5000);
 
-  it('get to admins login page', function () {
+  it('get to admins login page', () => {
     return chai.request(app)
-     .get('/admin')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin')
+      .then((res) => {
+       expect(res).to.have.status(200);
+      });
   });
 
-     it('login in an admin', function () {
+ it('login in an admin', () => {
     return chai.request(app)
       .post('/admin')
       .send({
         uname: 'sergio',
         pword: 'ramos',
       })
-      .then(function (res) {
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(true);
-        admin_jwt_token = res.body.token;
+        adminJwtToken = res.body.token;
       });
   });   
 
-  it('get to admins dashboard', function () {
+  it('get to admins dashboard', () => {
     return chai.request(app)
-     .get('/admin/admindashboard')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin/admindashboard')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-    it('api for getting list of orders', function () {
+ it('api for getting list of orders', () => {
     return chai.request(app)
-     .get('/api/v1/admin/orders')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-     });
+      .get('/api/v1/admin/orders')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-  it('admin - get a users specific order', function () {
+  it('admin - get a users specific order', () => {
     return chai.request(app)
-     .get('/admin/userorders/orderid')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin/userorders/orderid')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-    it('api for getting users orders', function () {
+  it('api for getting users orders', () => {
     return chai.request(app)
-     .get('/api/v1/admin/userorders/orderID')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-     });
+      .get('/api/v1/admin/userorders/orderID')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-    it('api updating user orders status', function () {
+  it('api updating user orders status', () => {
     return chai.request(app)
-     .put('/api/v1/admin/orders/orderID')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-     });
+      .put('/api/v1/admin/orders/orderID')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-it('admin - get food lists and details', function () {
+  it('admin - get food lists and details', () => {
     return chai.request(app)
-     .get('/admin/foodlist')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin/foodlist')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-it('admin - api for gettiing food list', function () {
+  it('admin - api for gettiing food list', () => {
     return chai.request(app)
-     .get('/api/v1/admin/foodlists')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      //expect(res.body).to.not.be.empty;
-     });
+      .get('/api/v1/admin/foodlists')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-it('admin - add food', function () {
+  it('admin - add food', () => {
     return chai.request(app)
-     .get('/admin/addfood')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin/addfood')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-it('admin - api endpoint for adding food', function () {
-  return chai.request(app)
-   .post('/api/v1/admin/addfood')
-   .set('authorization' , 'Bearer ' + admin_jwt_token)
-   .send({
-    foodName: 'Rice', 
-    foodPrice: '350', 
-    foodDesc: ' a way to advertise and describe the food'
-   })
-   .then(function (res) {
-    expect(res).to.have.status(201);
-      expect(res.body).to.be.an('array');
-    //expect(res.body).to.not.be.empty;
-   })
-});
-
-it('admin - edit food', function () {
+  it('admin - api endpoint for adding food', () => {
     return chai.request(app)
-     .get('/admin/editfood')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
-});
-
-it('admin - api for gettiing food details to edit', function () {
-    return chai.request(app)
-     .get('/api/v1/admin/food/foodName')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      //expect(res.body).to.be.empty;
-     });
-  });
-
-  it('api updating user orders status', function () {
-    return chai.request(app)
-     .put('/api/v1/admin/editfood')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .send({
-        foodName: 'Rice', 
-        foodPrice: '1050', 
+      .post('/api/v1/admin/addfood')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .send({
+        foodName: 'Rice',
+        foodPrice: '350',
         foodDesc: ' a way to advertise and describe the food'
-       })
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      //expect(res.body[0].foodPrice).to.equal('1050');
-     });
+      })
+      .then((res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.an('array');
+      })
+    });
+
+  it('admin - edit food', () => {
+    return chai.request(app)
+      .get('/admin/editfood')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-it('admin - delete food', function () {
+  it('admin - api for gettiing food details to edit', () => {
     return chai.request(app)
-     .get('/admin/deletefood')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/api/v1/admin/food/foodName')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-it('admin - api for deleting a food from the menu', function () {
+  it('api updating user orders status', () => {
     return chai.request(app)
-     .delete('/api/v1/admin/deletefood')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .send({
+      .put('/api/v1/admin/editfood')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .send({
+        foodName: 'Rice',
+        foodPrice: '1050',
+        foodDesc: ' a way to advertise and describe the food'
+      })
+       .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
+  });
+
+  it('admin - delete food', () => {
+    return chai.request(app)
+      .get('/admin/deletefood')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
+  });
+
+  it('admin - api for deleting a food from the menu', () => {
+    return chai.request(app)
+      .delete('/api/v1/admin/deletefood')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .send({
         foodName: 'Rice'
-       })
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-      //expect(res.body).to.not.be.empty;
-     });
+      })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-it('admin - messages', function () {
+  it('admin - messages', () => {
     return chai.request(app)
-     .get('/admin/messages')
-     .then(function (res) {
-      expect(res).to.have.status(200);
-     });
+      .get('/admin/messages')
+      .then((res) => {
+        expect(res).to.have.status(200);
+      });
   });
 
-it('admin - api for getting messages', function () {
+  it('admin - api for getting messages', () => {
     return chai.request(app)
-     .get('/api/v1/admin/messages')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('array');
-   });
+      .get('/api/v1/admin/messages')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+      });
   });
 
-  it('admin - api for sending message to customers', function () {
+  it('admin - api for sending message to customers', () => {
     return chai.request(app)
-     .post('/api/v1/admin/messages')
-     .set('authorization' , 'Bearer ' + admin_jwt_token)
-     .send({
-        receiver: 'McDave', 
+      .post('/api/v1/admin/messages')
+      .set('authorization', `Bearer ${adminJwtToken}`)
+      .send({
+        receiver: 'McDave',
         message: ' a way to advertise and describe the food'
-       })
-     .then(function (res) {
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an('object');
-      //expect(res.body).to.not.be.empty;
-     });
+      })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+      });
   });
 
-it('404 Page', function () {
+  it('404 Page', () => {
     return chai.request(app)
-     .get('/xyz')
-     .then(function (res) {
-      expect(res).to.have.status(404);
-   });
+      .get('/xyz')
+      .then((res) => {
+        expect(res).to.have.status(404);
+      });
   });
-
 });
