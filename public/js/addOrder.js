@@ -1,4 +1,4 @@
-let Orderbtn = document.getElementById('checkOut_btn');
+const Orderbtn = document.getElementById('checkOut_btn');
 Orderbtn.style.opacity = '0.3';
 let lastAddedElement = document.getElementById('foodName');
 let parentDiv = document.getElementById('foodName').parentNode;
@@ -22,7 +22,7 @@ function addToOrder (CheckBoxelement) {
     item++;
     let para = document.createElement('P');
     para.setAttribute('id', detail[0]);
-    let paraText = document.createTextNode(detail[0] + ', Price: ' + detail[1]);
+    let paraText = document.createTextNode( `${detail[0]} , Price: ${detail[1]}`);
     para.appendChild(paraText);
     parentDiv.insertBefore(para, lastAddedElement);
     parentDiv = document.getElementById(detail[0]).parentNode;
@@ -37,7 +37,7 @@ function addToOrder (CheckBoxelement) {
 
     let quantity = document.createElement('INPUT');
     quantity.setAttribute('id', 'Quant' + detail[0]);
-    let quanText = 1; 
+    let quanText = 1;
     quantity.value = quanText;
     document
       .getElementById('minus' + detail[0])

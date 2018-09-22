@@ -91,7 +91,6 @@ function signUp () {
 }
 
 function sendMsg () {
-  //let name = document.getElementById('msgName').value;
   let msg = document.getElementById('txtMsg').value;
   if (name.length < 2 || msg < 5) {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
