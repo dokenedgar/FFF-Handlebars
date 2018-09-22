@@ -9,6 +9,8 @@ const expect = require('chai').expect;
 const chai = require('chai');
 chai.use(require('chai-http'));
 const app = require('../index.js');
+let jwt_token;
+let admin_jwt_token;
 
 
 describe('Userstest with chai http', function () {
@@ -47,6 +49,8 @@ describe('Userstest with chai http', function () {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an("object");
         expect(res.body.userFound).to.equal(true);
+        jwt_token = res.body.token;
+        //console.log(res.body.token);
       });
   });
 
@@ -86,11 +90,11 @@ describe('Userstest with chai http', function () {
        it('api endpoint for list of food', function () {
     return chai.request(app)
       .get('/menu/api/v1/menu')
-      //.set('authorization' : 'Bearer ' + localStorage.fff_token)
+      .set('authorization' , 'Bearer ' + jwt_token)
       .then(function (res) {
-        expect(res).to.have.status(403);
-        //expect(res.body).to.be.an('array');
-        expect(res.body).to.an('object');
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+        //expect(res.body).to.an('object');
       });
   });
 
@@ -105,9 +109,10 @@ describe('Userstest with chai http', function () {
      it('api endpoint for getting users orders', function () {
     return chai.request(app)
       .get('/api/v1/orders/ausername')
+      .set('authorization' , 'Bearer ' + jwt_token)
       .then(function (res) {
-        expect(res).to.have.status(403);
-        expect(res.body).to.be.an('object');
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
       });
   });
 
@@ -122,15 +127,17 @@ describe('Userstest with chai http', function () {
      it('api endpoint for getting users specific order', function () {
     return chai.request(app)
       .get('/api/v1/order/orderid')
+      .set('authorization' , 'Bearer ' + jwt_token)
       .then(function (res) {
-        expect(res).to.have.status(403);
-        expect(res.body).to.be.an('object');
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
       });
   });
 
 it('api for placing a new order', function () {
     return chai.request(app)
       .post('/api/v1/placeOrder/Peter')
+      .set('authorization' , 'Bearer ' + jwt_token)
       .send({
         body: [
         	{food: 'Rice', price: '350', quantity: '1'}
@@ -138,7 +145,7 @@ it('api for placing a new order', function () {
         
       })
       .then(function (res) {
-        expect(res).to.have.status(403);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
         //expect(res.body[0].user).to.equal('Peter');
       });
@@ -155,22 +162,24 @@ it('api for placing a new order', function () {
       it('api endpoint for getting a users messages', function () {
     return chai.request(app)
       .get('/api/v1/messages/McDave')
+      .set('authorization' , 'Bearer ' + jwt_token)
       .then(function (res) {
-        expect(res).to.have.status(403);
-        expect(res.body).to.be.an('object');
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
         //expect(res.body[0].receiver).to.equal('McDave');
       });
   });
 
      it('api endpoint for sending message to admin', function () {
     return chai.request(app)
-      .post('/api/v1/messages/Peter')
+      .post('/api/v1/messages/PPeter')
+      .set('authorization' , 'Bearer ' + jwt_token)
       .send({
         sender: 'Peter',
         message: 'Hello Hi, am MI my low is high..',
       })
       .then(function (res) {
-        expect(res).to.have.status(403);
+        expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         //expect(res.body.sender).to.equal('Peter');
       });
@@ -196,13 +205,14 @@ describe('ADMIN API TESTS', function () {
     return chai.request(app)
       .post('/admin')
       .send({
-        username: 'Peter',
-        password: 'Hello Hi, am MI my low is high..',
+        uname: 'sergio',
+        pword: 'ramos',
       })
       .then(function (res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.userFound).to.equal(false);
+        expect(res.body.userFound).to.equal(true);
+        admin_jwt_token = res.body.token;
       });
   });   
 
@@ -217,6 +227,7 @@ describe('ADMIN API TESTS', function () {
 		it('api for getting list of orders', function () {
 		return chai.request(app)
 		 .get('/api/v1/admin/orders')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -234,6 +245,7 @@ describe('ADMIN API TESTS', function () {
 		it('api for getting users orders', function () {
 		return chai.request(app)
 		 .get('/api/v1/admin/userorders/orderID')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -243,6 +255,7 @@ describe('ADMIN API TESTS', function () {
 		it('api updating user orders status', function () {
 		return chai.request(app)
 		 .put('/api/v1/admin/orders/orderID')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -260,6 +273,7 @@ it('admin - get food lists and details', function () {
 it('admin - api for gettiing food list', function () {
 		return chai.request(app)
 		 .get('/api/v1/admin/foodlists')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -278,6 +292,7 @@ it('admin - add food', function () {
 it('admin - api endpoint for adding food', function () {
 	return chai.request(app)
 	 .post('/api/v1/admin/addfood')
+   .set('authorization' , 'Bearer ' + admin_jwt_token)
 	 .send({
 	 	foodName: 'Rice', 
 	 	foodPrice: '350', 
@@ -301,6 +316,7 @@ it('admin - edit food', function () {
 it('admin - api for gettiing food details to edit', function () {
 		return chai.request(app)
 		 .get('/api/v1/admin/food/foodName')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -311,6 +327,7 @@ it('admin - api for gettiing food details to edit', function () {
 	it('api updating user orders status', function () {
 		return chai.request(app)
 		 .put('/api/v1/admin/editfood')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .send({
 			 	foodName: 'Rice', 
 			 	foodPrice: '1050', 
@@ -334,6 +351,7 @@ it('admin - delete food', function () {
 it('admin - api for deleting a food from the menu', function () {
 		return chai.request(app)
 		 .delete('/api/v1/admin/deletefood')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .send({
 			 	foodName: 'Rice'
 			 })
@@ -355,6 +373,7 @@ it('admin - messages', function () {
 it('admin - api for getting messages', function () {
 		return chai.request(app)
 		 .get('/api/v1/admin/messages')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .then(function (res) {
 		 	expect(res).to.have.status(200);
 		 	expect(res.body).to.be.an('array');
@@ -364,6 +383,7 @@ it('admin - api for getting messages', function () {
 	it('admin - api for sending message to customers', function () {
 		return chai.request(app)
 		 .post('/api/v1/admin/messages')
+     .set('authorization' , 'Bearer ' + admin_jwt_token)
 		 .send({
 			 	receiver: 'McDave', 
 			 	message: ' a way to advertise and describe the food'

@@ -177,7 +177,7 @@ app.get('/api/v1/order/:id', function (req, res) {
 
 // PLACE AN ORDER
 app.post('/api/v1/placeOrder/:user', (req, res) => {
-  console.log(req.body);
+ // console.log(req.body);
 
     jwt.verify(req.token, 'tre-lala', (err, authData) => {
     if(err){
@@ -189,7 +189,7 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
         };
         orders.push(newOrder);
         res.status(201)
-        res.send(orders);
+        res.send(newOrder);
       }
   })
 
@@ -248,9 +248,17 @@ app.post('/admin', (req, res) => {
   adminUsers.forEach(function (element) {
     if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
       result.userFound = true;
+      //Create jwt token for the user
+      jwt.sign( { signInUser }, 'admin_tre-lala', (err, token) => {
+        //result.token = token;
+        result.token = token;
+        res.send(result);
+      })
     }
   });
-  res.send(result);
+    if (!result.userFound) {
+    res.send(result);
+  }
 });
 
 
