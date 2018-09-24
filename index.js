@@ -38,7 +38,18 @@ let messagesFromAdmin = [
   { receiver: 'McDave', message: 'Welcome to Fast Food Fast. Thank you for registering and we hope you have a wonderful experience with us' }
 ];
 
+/*
+POSTGRESQL CONFIGS
+*/
+const Pool = require('pg').Pool;
+const config = {
+  host: 'localhost',
+  user: 'postgres',
+  password: 'd0k3nedgar',
+  database: 'postgres'
+};
 
+const pool = new Pool(config);
 app.use(express.static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3000);
 
@@ -69,6 +80,7 @@ app.get('/signin/:uname/:pword', (req, res) => {
       jwt.sign( { signInUser }, 'tre-lala', (err, token) => {
         //result.token = token;
         result.token = token;
+        getRecords(req.params.uname,req.params.pword);
         res.send(result);
       })
     }
@@ -79,7 +91,11 @@ app.get('/signin/:uname/:pword', (req, res) => {
   }
 
 });
-
+async function getRecords(uname, pword) {
+  let adding = await pool.query(`insert into mytable (id, name, pword) values (15, '${uname}', '${pword}')`);
+  let response = await pool.query('select * from mytable order by id');
+  console.log(response.rows);
+}
 //===================VERIFY TOKEN========================>
 function verifyToken (req, res, next) {
   const bearerHeader = req.headers['authorization'];
