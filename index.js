@@ -80,7 +80,8 @@ app.get('/signin/:uname/:pword', (req, res) => {
       jwt.sign( { signInUser }, 'tre-lala', (err, token) => {
         //result.token = token;
         result.token = token;
-        getRecords(req.params.uname,req.params.pword);
+        //getRecords(req.params.uname,req.params.pword);
+
         res.send(result);
       })
     }
@@ -130,7 +131,9 @@ app.get('/menu', function (req, res) {
 });
 
 app.get('/menu/api/v1/menu', function (req, res) {
-      res.send(foodList);
+      let responseJSON = {numberOfItems : foodList.length, foodList};
+      //res.send(foodList);
+      res.send(responseJSON);
 });
 
 app.get('/api/v1/menu', function (req, res) {
@@ -162,7 +165,9 @@ app.get('/api/v1/orders/:user', (req, res) => {
           order = order.concat(element);
           }
         });
-        res.send(order);
+        let responseJSON = {items:order.length, orders:order};
+        //res.send(order);
+        res.send(responseJSON);
     }
   })
 });
