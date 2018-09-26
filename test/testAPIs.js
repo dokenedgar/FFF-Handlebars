@@ -1,13 +1,16 @@
 'use strict';
 
-const assert = require('assert');
+//const assert = require('assert');
+import assert from 'assert';
 
 const expect = require('chai').expect;
 // const { expect } = require('chai');
 
-const chai = require('chai');
+//const chai = require('chai');
+import chai from 'chai';
 chai.use(require('chai-http'));
-const app = require('../index.js');
+import app from '../index';
+//const app = require('../index.js');
 
 let jwtToken;
 let adminJwtToken;
