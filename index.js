@@ -122,7 +122,8 @@ app.get('/menu', (req, res) => {
 });
 
 app.get('/menu/api/v1/menu', (req, res) => {
-  res.send(foodList);
+  let responseObj = { numberOfItems : foodList.length, foodList };
+  res.send(responseObj);
 });
 
 app.get('/api/v1/menu', (req, res) => {
@@ -130,7 +131,8 @@ app.get('/api/v1/menu', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      res.send(foodList);
+      let responseObj = { numberOfItems : foodList.length, foodList };
+      res.send(responseObj);
     }
   });
 });
@@ -151,7 +153,15 @@ app.get('/api/v1/orders/:user', (req, res) => {
           order = order.concat(element);
         }
       });
-      res.send(order);
+      if (order.length > 0 ) {
+        let responseObj = { numberOfItems : order.length, order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfItems : 'Oops, no item found..', order };
+        res.send(responseObj);
+      }
+      
     }
   });
 });
@@ -173,7 +183,14 @@ app.get('/api/v1/order/:id', (req, res) => {
           order = order.concat(element);
         }
       });
-      res.send(order);
+       if (order.length > 0 ) {
+        let responseObj = { numberOfItems : order.length, order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfItems : 'Oops, no item found..', order };
+        res.send(responseObj);
+      }
     }
   });
 });
@@ -192,7 +209,8 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
       };
       orders.push(newOrder);
       res.status(201);
-      res.send(orders);
+      let responseObj = { placeOrder : 'Order place successfully', newOrder };
+        res.send(responseObj);
     }
   });
 });
@@ -213,7 +231,15 @@ app.get('/api/v1/messages/:user', (req, res) => {
           msgs = msgs.concat(element);
         }
       });
-      res.send(msgs);
+      if (msgs.length > 0) {
+        let responseObj = { numberOfMessages : msgs.length, msgs };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfMessages : 'No messages yet for this user..', msgs };
+        res.send(responseObj);
+      }
+      
     }
   });
 });
@@ -227,7 +253,8 @@ app.post('/api/v1/messages/:user', (req, res) => {
         sender: req.body.sender, message: req.body.message
       };
       messagesToAdmin.push(newMsg);
-      res.send(newMsg);
+      let responseObj = { msgStatus : 'Message sent successfully', newMsg };
+      res.send(responseObj);
     }
   });
 });

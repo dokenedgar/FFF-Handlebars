@@ -6,7 +6,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
     let orders = JSON.parse(JSON.stringify(data));
     // let orders = data;
     console.log(orders);
-    orders.forEach(function (elementf, index) {
+    orders.msgs.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);
       let serialNum = row.insertCell(0);
       let message = row.insertCell(1);

@@ -91,7 +91,7 @@ describe('Userstest with chai http', function () {
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -109,7 +109,7 @@ describe('Userstest with chai http', function () {
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -127,7 +127,7 @@ describe('Userstest with chai http', function () {
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -142,7 +142,7 @@ describe('Userstest with chai http', function () {
       })
       .then((res) => {
         expect(res).to.have.status(201);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -160,7 +160,7 @@ describe('Userstest with chai http', function () {
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
