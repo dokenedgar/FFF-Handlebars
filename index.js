@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
+/*const handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
+*/
 app.use(express.json());
 
 const orders = [];
@@ -52,12 +53,13 @@ app.set('port', process.env.PORT || 3000);
 app.use('/api', verifyToken);
 
 app.get('/', (req, res) => {
-  res.render('index', { layout: 'guest', user: { guest: true }, menu: JSON.stringify(foodList) });
+  //res.render('index', { layout: 'guest', user: { guest: true }, menu: JSON.stringify(foodList) });
+  res.sendFile(path.join(__dirname, '/UI/index.html'));
 });
 
 
 app.get('/signin',  (req, res) => {
-  res.render('signin', { layout: 'guest' });
+  res.sendFile(path.join(__dirname, '/UI/signin.html'));
 });
 
 app.get('/signin/:uname/:pword', (req, res) => {
@@ -101,7 +103,7 @@ function verifyToken(req, res, next) {
 // =======================================================>
 
 app.get('/signup', (req, res) => {
-  res.render('signup', { layout: 'guest' });
+  res.sendFile(path.join(__dirname, '/UI/signup.html'));
 });
 
 app.post('/signup', (req, res) => {
@@ -118,7 +120,7 @@ app.get('/logout', (req, res) => {
 
 
 app.get('/menu', (req, res) => {
-  res.render('dashboard');
+  res.sendFile(path.join(__dirname, '/UI/dashboard.html'));
 });
 
 app.get('/menu/api/v1/menu', (req, res) => {
@@ -139,7 +141,7 @@ app.get('/api/v1/menu', (req, res) => {
 
 // html for getting all orders by a user
 app.get('/orders', (req, res) => {
-  res.render('history');
+  res.sendFile(path.join(__dirname, '/UI/history.html'));
 });
 // appi for getting all orders made by a user
 app.get('/api/v1/orders/:user', (req, res) => {
@@ -168,7 +170,7 @@ app.get('/api/v1/orders/:user', (req, res) => {
 
 // html for getting specific orders using order id, its api is below it
 app.get('/orders/:id', (req, res) => {
-  res.render('getorder');
+  res.sendFile(path.join(__dirname, '/UI/getorder.html'));
 });
 
 app.get('/api/v1/order/:id', (req, res) => {
@@ -217,7 +219,7 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
 
 
 app.get('/messages', (req, res) => {
-  res.render('messages');
+  res.sendFile(path.join(__dirname, '/UI/messages.html'));
 });
 
 app.get('/api/v1/messages/:user', (req, res) => {
@@ -261,7 +263,7 @@ app.post('/api/v1/messages/:user', (req, res) => {
 
 // ADMIN
 app.get('/admin', (req, res) => {
-  res.render('adminsignin', { layout: null });
+  res.sendFile(path.join(__dirname, '/UI/adminsignin.html'));
 });
 
 app.post('/admin', (req, res) => {
@@ -286,7 +288,7 @@ app.post('/admin', (req, res) => {
 
 
 app.get('/admin/admindashboard', (req, res) => {
-  res.render('admindashboard', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/admindashboard.html'));
 });
 
 app.get('/api/v1/admin/orders', (req, res) => {
@@ -302,7 +304,7 @@ app.get('/api/v1/admin/orders', (req, res) => {
 
 // GET A USERS ORDERS
 app.get('/admin/userorders/:order', (req, res) => {
-  res.render('userorders', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/userorders.html'));
 });
 
 app.get('/api/v1/admin/userorders/:order', (req, res) => {
@@ -343,7 +345,7 @@ app.put('/api/v1/admin/orders/:id', (req, res) => {
 
 // FOOD LIST
 app.get('/admin/foodlist', (req, res) => {
-  res.render('adminfoodlist', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/adminfoodlist.html'));
 });
 
 app.get('/api/v1/admin/foodlists', (req, res) => {
@@ -359,7 +361,7 @@ app.get('/api/v1/admin/foodlists', (req, res) => {
 
 // ADD FOOD
 app.get('/admin/addfood', (req, res) => {
-  res.render('adminaddfood', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/adminaddfood.html'));
 });
 
 app.post('/api/v1/admin/addfood', (req, res) => {
@@ -380,7 +382,7 @@ app.post('/api/v1/admin/addfood', (req, res) => {
 
 // EDIT A FOOD DETAILS
 app.get('/admin/editfood', (req, res) => {
-  res.render('admineditfood', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/admineditfood.html'));
 });
 
 app.get('/api/v1/admin/food/:name', (req, res) => {
@@ -420,7 +422,7 @@ app.put('/api/v1/admin/editfood', (req, res) => {
 
 // DELETE FOOD =================================================>
 app.get('/admin/deletefood', (req, res) => {
-  res.render('admindeletefood', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/admindeletefood.html'));
 });
 app.delete('/api/v1/admin/deletefood', (req, res) => {
 
@@ -442,7 +444,7 @@ app.delete('/api/v1/admin/deletefood', (req, res) => {
 
 // GET MESSAGES
 app.get('/admin/messages', (req, res) => {
-  res.render('adminmessages', { layout: 'admin' });
+  res.sendFile(path.join(__dirname, '/UI/adminmessages.html'));
 });
 
 app.get('/api/v1/admin/messages', (req, res) => {
