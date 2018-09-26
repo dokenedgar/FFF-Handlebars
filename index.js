@@ -41,7 +41,7 @@ let messagesFromAdmin = [
 /*
 POSTGRESQL CONFIGS
 */
-const Pool = require('pg').Pool;
+//const Pool = require('pg').Pool;
 const config = {
   host: 'localhost',
   user: 'postgres',
@@ -49,13 +49,14 @@ const config = {
   database: 'postgres'
 };
 
-const pool = new Pool(config);
+
+//const pool = new Pool(config);
 app.use(express.static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3000);
 
 //Middleware gets called for all routes starting with /api
 //Inorder to check for the presence of a token
-app.use('/api', verifyToken);
+//app.use('/api', verifyToken);
 
 
 app.get('/', function (req, res) {
@@ -93,8 +94,8 @@ app.get('/signin/:uname/:pword', (req, res) => {
 
 });
 async function getRecords(uname, pword) {
-  let adding = await pool.query(`insert into mytable (id, name, pword) values (15, '${uname}', '${pword}')`);
-  let response = await pool.query('select * from mytable order by id');
+  //let adding = await pool.query(`insert into mytable (id, name, pword) values (15, '${uname}', '${pword}')`);
+  //let response = await pool.query('select * from mytable order by id');
   console.log(response.rows);
 }
 //===================VERIFY TOKEN========================>
