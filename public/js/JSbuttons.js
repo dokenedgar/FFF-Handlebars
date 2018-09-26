@@ -1,6 +1,6 @@
 let signInerrors = document.getElementById('errors');
 let name = document.getElementById('msgName');
-name.value = localStorage.loggedUser;
+
 
 function signIn () {
   let user_name = document.getElementById('txtusername').value;
@@ -11,7 +11,8 @@ function signIn () {
   }
   else {
     // Send data to server
-    fetch('https://dokenedgar.herokuapp.com/signin/' + user_name + '/' + pass_word)
+    //fetch('https://dokenedgar.herokuapp.com/signin/' + user_name + '/' + pass_word)
+    fetch('/signin/' + user_name + '/' + pass_word)
       .then((resp) => resp.json())
       .then((data) => {
         let user = JSON.parse(JSON.stringify(data));
@@ -19,7 +20,8 @@ function signIn () {
         if (user.userFound) {
           localStorage.loggedUser = user_name; // localStorage.removeItem(loggedUser)
           localStorage.fff_token = user.token;
-          window.location.href = 'https://dokenedgar.herokuapp.com/menu';
+          //window.location.href = 'https://dokenedgar.herokuapp.com/menu';
+          window.location.href = '/menu';
         }
         else {
           signInerrors.innerHTML = 'Username or password incorrect';
@@ -92,6 +94,7 @@ function signUp () {
 
 function sendMsg () {
   //let name = document.getElementById('msgName').value;
+  name.value = localStorage.loggedUser;
   let msg = document.getElementById('txtMsg').value;
   if (name.length < 2 || msg < 5) {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';

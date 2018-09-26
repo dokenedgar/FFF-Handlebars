@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Fast Food Fast | Admin </title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/foodgallery.css">
+</head>
+<body>
+  <header>
+    <div class="headnav">
+    <div class="container">
+        <div id="brandname">
+        <h1>Fast Food Fast</h1>
+      </div>
+      <nav>
+        <ul>
+          
+          <li class="current"><a href="https://dokenedgar.herokuapp.com/admin/admindashboard">All Orders</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/foodlist">Food List</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/addfood">Add Food</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/editfood">Edit Food</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/deletefood">Delete Food</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/messages">Messages</a></li>
+            <li><a href="https://dokenedgar.herokuapp.com/admin/logout">Log Out</a></li>
+        </ul>
+      </nav>
+    </div>
+    </div>
+  </header>
+
+ <div class="container">
+    <div id="signup">
+      <h1>EDIT FOOD ITEM</h1>
+      
+          <label>Food Display Name:</label>
+          <input type="text" id="foodName">
+
+          <label id="LabelFoodPrice">Price:</label>
+          <input type="text" id="foodPrice">
+          
+          <label id="LabelFoodDesc">Description</label>
+          <textarea id="foodDesc"></textarea>
+
+
+          <button id="btnUpdateDetails" onclick="updateDetails()">Update Details</button>
+          <button id="btngetDetails" onclick="getDetails()">Get Details</button>
+    </div>
+    <p id="errors"></p>
+  </div>
+  <script type="text/javascript" src="/js/admin_js/editfood.js"></script>
+
+
+  <footer>
+    <p>Fast Food Fast Copyright &copy; 2018</p>
+  </footer>
+
+</body>
+</html>
