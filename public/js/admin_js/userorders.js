@@ -6,7 +6,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
     console.log(orders);
-    orders.forEach(function (element, index) {
+    orders.order.forEach(function (element, index) {
       element.order.forEach(function (elementf, index) {
         let row = tblHistory.insertRow(index + 1);
         let orderID = row.insertCell(0);

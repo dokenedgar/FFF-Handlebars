@@ -5,7 +5,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
     console.log(orders);
-    orders.forEach(function (elementf, index) {
+    orders.foodList.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);
       let serialNum = row.insertCell(0);
       let food = row.insertCell(1);

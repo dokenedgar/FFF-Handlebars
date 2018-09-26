@@ -2,9 +2,9 @@ let tblHistory = document.getElementById('adminOrders');
 fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
   .then((resp) => resp.json())
   .then((data) => {
-    let orders = JSON.parse(JSON.stringify(data));
-    console.log(orders);
-    orders.forEach(function (element, index) {
+    let customerOrders = JSON.parse(JSON.stringify(data));
+    console.log(customerOrders);
+    customerOrders.orders.forEach(function (element, index) {
       element.order.forEach(function (elementf, index) {
         let row = tblHistory.insertRow(index + 1);
         let orderID = row.insertCell(0);
