@@ -113,7 +113,8 @@ app.post('/signup', (req, res) => {
     fname: req.body.fname, sname: req.body.sname, phone: req.body.phone, username: req.body.username, pword: req.body.pword
   };
   users.push(newUser);
-  res.send(newUser);
+  let response = { success: "true", message: "New user registered n", newUser}
+  res.send(response);
 });
 
 app.get('/logout', (req, res) => {
