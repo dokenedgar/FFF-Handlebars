@@ -491,6 +491,7 @@ app.get('/admin/deletefood', (req, res) => {
   res.sendFile(path.join(__dirname, '/UI/admindeletefood.html'));
 });
 app.delete('/api/v1/admin/deletefood', (req, res) => {
+  let deleteSuccess = false;
   jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -498,10 +499,19 @@ app.delete('/api/v1/admin/deletefood', (req, res) => {
       foodList.forEach((element, index) => {
         if (element.foodName === req.body.foodName) {
           foodList.splice(index, 1);
+          deleteSuccess = true;
         }
       });
-      res.status(200);
-      res.send(foodList);
+      
+      if (deleteSuccess) {
+        res.status(200);
+        let responseObj = { deleteStatus : 'Food item deleted successfully', foodList };
+        res.send(responseObj);
+      }
+        else {
+          let responseObj = { deleteStatus : 'Problem deleting food item, check food name', foodName:res.body.foodName };
+          res.send(responseObj);
+        }
     }
   });
 });
@@ -520,7 +530,14 @@ app.get('/api/v1/admin/messages', (req, res) => {
       res.sendStatus(403);
     } else {
       res.status(200);
-      res.send(messagesToAdmin);
+      if (messagesToAdmin.length > 0) {
+        let responseObj = { numberOfMessages : messagesToAdmin.length, messagesToAdmin };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfMessages : 'No messages yet from customers!', messagesToAdmin };
+        res.send(responseObj);
+      }
     }
   });
 });
@@ -542,9 +559,15 @@ app.post('/api/v1/admin/messages', (req, res) => {
           receiver: req.body.receiver, message: req.body.message
         };
         messagesFromAdmin.push(newMsg);
+        res.status(201);
+        result.status = 'Message sent successfully';
+        res.send(result);
       }
-      res.status(201);
-      res.send(result);
+      else {
+        result.status = 'Problem with sending message.';
+        res.send(result);
+      }
+      
     }
   });
 });
