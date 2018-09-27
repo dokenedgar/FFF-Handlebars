@@ -1,12 +1,13 @@
-const express = require('express');
+// const express = require('express');
+import express from 'express';
 const app = express();
-const path = require('path');
-const jwt = require('jsonwebtoken');
-/*const handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
 
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
-*/
+// const path = require('path');
+import path from 'path';
+
+// const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+
 app.use(express.json());
 
 const orders = [];
@@ -45,7 +46,9 @@ const messagesFromAdmin = [
 ];
 
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '../public/css/')));
+app.use(express.static(path.join(__dirname, '../public/images/')));
+app.use(express.static(path.join(__dirname, '/public/')));
 app.set('port', process.env.PORT || 3000);
 
 // Middleware gets called for all routes starting with /api
@@ -54,13 +57,13 @@ app.use('/api', verifyToken);
 
 app.get('/', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/index.html'));
+  res.sendFile(path.join(__dirname, '../UI/index.html'));
 });
 
 
 app.get('/signin',  (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/signin.html'));
+  res.sendFile(path.join(__dirname, '../UI/signin.html'));
 });
 
 app.get('/signin/:uname/:pword', (req, res) => {
@@ -105,7 +108,7 @@ function verifyToken(req, res, next) {
 
 app.get('/signup', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/signup.html'));
+  res.sendFile(path.join(__dirname, '../UI/signup.html'));
 });
 
 app.post('/signup', (req, res) => {
@@ -123,7 +126,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/menu', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/dashboard.html'));
+  res.sendFile(path.join(__dirname, '../UI/dashboard.html'));
 });
 
 app.get('/menu/api/v1/menu', (req, res) => {
@@ -147,7 +150,7 @@ app.get('/api/v1/menu', (req, res) => {
 // html for getting all orders by a user
 app.get('/orders', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/history.html'));
+  res.sendFile(path.join(__dirname, '../UI/history.html'));
 });
 // appi for getting all orders made by a user
 app.get('/api/v1/orders/:user', (req, res) => {
@@ -177,7 +180,7 @@ app.get('/api/v1/orders/:user', (req, res) => {
 // html for getting specific orders using order id, its api is below it
 app.get('/orders/:id', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/getorder.html'));
+  res.sendFile(path.join(__dirname, '../UI/getorder.html'));
 });
 
 app.get('/api/v1/order/:id', (req, res) => {
@@ -228,7 +231,7 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
 
 app.get('/messages', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/messages.html'));
+  res.sendFile(path.join(__dirname, '../UI/messages.html'));
 });
 
 app.get('/api/v1/messages/:user', (req, res) => {
@@ -275,7 +278,7 @@ app.post('/api/v1/messages/:user', (req, res) => {
 // ADMIN
 app.get('/admin', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/adminsignin.html'));
+  res.sendFile(path.join(__dirname, '../UI/adminsignin.html'));
 });
 
 app.post('/admin', (req, res) => {
@@ -303,7 +306,7 @@ app.post('/admin', (req, res) => {
 
 app.get('/admin/admindashboard', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/admindashboard.html'));
+  res.sendFile(path.join(__dirname, '../UI/admindashboard.html'));
 });
 
 app.get('/api/v1/admin/orders', (req, res) => {
@@ -329,7 +332,7 @@ app.get('/api/v1/admin/orders', (req, res) => {
 // GET A USERS ORDERS
 app.get('/admin/userorders/:order', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/userorders.html'));
+  res.sendFile(path.join(__dirname, '../UI/userorders.html'));
 });
 
 app.get('/api/v1/admin/userorders/:order', (req, res) => {
@@ -388,7 +391,7 @@ app.put('/api/v1/admin/orders/:id', (req, res) => {
 // FOOD LIST
 app.get('/admin/foodlist', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/adminfoodlist.html'));
+  res.sendFile(path.join(__dirname, '../UI/adminfoodlist.html'));
 });
 
 app.get('/api/v1/admin/foodlists', (req, res) => {
@@ -407,7 +410,7 @@ app.get('/api/v1/admin/foodlists', (req, res) => {
 // ADD FOOD
 app.get('/admin/addfood', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/adminaddfood.html'));
+  res.sendFile(path.join(__dirname, '../UI/adminaddfood.html'));
 });
 
 app.post('/api/v1/admin/addfood', (req, res) => {
@@ -430,7 +433,7 @@ app.post('/api/v1/admin/addfood', (req, res) => {
 // EDIT A FOOD DETAILS
 app.get('/admin/editfood', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/admineditfood.html'));
+  res.sendFile(path.join(__dirname, '../UI/admineditfood.html'));
 });
 
 app.get('/api/v1/admin/food/:name', (req, res) => {
@@ -488,7 +491,7 @@ app.put('/api/v1/admin/editfood', (req, res) => {
 // DELETE FOOD =================================================>
 app.get('/admin/deletefood', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/admindeletefood.html'));
+  res.sendFile(path.join(__dirname, '../UI/admindeletefood.html'));
 });
 app.delete('/api/v1/admin/deletefood', (req, res) => {
   let deleteSuccess = false;
@@ -521,7 +524,7 @@ app.delete('/api/v1/admin/deletefood', (req, res) => {
 // GET MESSAGES
 app.get('/admin/messages', (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, '/UI/adminmessages.html'));
+  res.sendFile(path.join(__dirname, '../UI/adminmessages.html'));
 });
 
 app.get('/api/v1/admin/messages', (req, res) => {
@@ -585,4 +588,5 @@ ${app.get('port')}; press Ctrl-C to terminate.`);
 });
 
 // app.listen(app.get('port'), 'localhost');
-module.exports = app;
+//module.exports = app;
+export default app;
