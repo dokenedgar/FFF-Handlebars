@@ -173,7 +173,7 @@ describe('Userstest with chai http', function () {
         message: 'Hello Hi, am MI my low is high..',
       })
       .then((res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
       });
   });
@@ -222,7 +222,7 @@ describe('ADMIN API TESTS', function () {
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -240,7 +240,7 @@ describe('ADMIN API TESTS', function () {
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -250,7 +250,7 @@ describe('ADMIN API TESTS', function () {
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -262,13 +262,13 @@ describe('ADMIN API TESTS', function () {
       });
   });
 
-  it('admin - api for gettiing food list', () => {
+  it('admin - api for getting food list', () => {
     return chai.request(app)
       .get('/api/v1/admin/foodlists')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -291,7 +291,7 @@ describe('ADMIN API TESTS', function () {
       })
       .then((res) => {
         expect(res).to.have.status(201);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       })
     });
 
@@ -303,13 +303,13 @@ describe('ADMIN API TESTS', function () {
       });
   });
 
-  it('admin - api for gettiing food details to edit', () => {
+  it('admin - api for getting food details to edit', () => {
     return chai.request(app)
       .get('/api/v1/admin/food/foodName')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -324,7 +324,7 @@ describe('ADMIN API TESTS', function () {
       })
        .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -345,7 +345,7 @@ describe('ADMIN API TESTS', function () {
       })
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -363,7 +363,7 @@ describe('ADMIN API TESTS', function () {
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.an('object');
       });
   });
 
@@ -376,7 +376,7 @@ describe('ADMIN API TESTS', function () {
         message: ' a way to advertise and describe the food'
       })
       .then((res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
       });
   });

@@ -6,7 +6,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'au
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
     console.log(orders);
-    orders.forEach(function (elementf, index) {
+    orders.messagesToAdmin.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);
       let serialNum = row.insertCell(0);
       let sender = row.insertCell(1);

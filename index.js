@@ -53,12 +53,13 @@ app.set('port', process.env.PORT || 3000);
 app.use('/api', verifyToken);
 
 app.get('/', (req, res) => {
-  //res.render('index', { layout: 'guest', user: { guest: true }, menu: JSON.stringify(foodList) });
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/index.html'));
 });
 
 
 app.get('/signin',  (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/signin.html'));
 });
 
@@ -103,6 +104,7 @@ function verifyToken(req, res, next) {
 // =======================================================>
 
 app.get('/signup', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/signup.html'));
 });
 
@@ -120,10 +122,12 @@ app.get('/logout', (req, res) => {
 
 
 app.get('/menu', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/dashboard.html'));
 });
 
 app.get('/menu/api/v1/menu', (req, res) => {
+  res.status(200);
   let responseObj = { numberOfItems : foodList.length, foodList };
   res.send(responseObj);
 });
@@ -133,6 +137,7 @@ app.get('/api/v1/menu', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(200);
       let responseObj = { numberOfItems : foodList.length, foodList };
       res.send(responseObj);
     }
@@ -141,6 +146,7 @@ app.get('/api/v1/menu', (req, res) => {
 
 // html for getting all orders by a user
 app.get('/orders', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/history.html'));
 });
 // appi for getting all orders made by a user
@@ -160,7 +166,7 @@ app.get('/api/v1/orders/:user', (req, res) => {
         res.send(responseObj);
       }
       else {
-        let responseObj = { numberOfItems : 'Oops, no item found..', order };
+        let responseObj = { numberOfItems : 'Sorry, this user has not made any orders yet..', order };
         res.send(responseObj);
       }
       
@@ -170,6 +176,7 @@ app.get('/api/v1/orders/:user', (req, res) => {
 
 // html for getting specific orders using order id, its api is below it
 app.get('/orders/:id', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/getorder.html'));
 });
 
@@ -180,6 +187,7 @@ app.get('/api/v1/order/:id', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(200);
       orders.forEach((element, index) => {
         if (element.orderID === req.params.id) {
           order = order.concat(element);
@@ -190,7 +198,7 @@ app.get('/api/v1/order/:id', (req, res) => {
         res.send(responseObj);
       }
       else {
-        let responseObj = { numberOfItems : 'Oops, no item found..', order };
+        let responseObj = { numberOfItems : 'No item found with this Order ID..', order };
         res.send(responseObj);
       }
     }
@@ -219,6 +227,7 @@ app.post('/api/v1/placeOrder/:user', (req, res) => {
 
 
 app.get('/messages', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/messages.html'));
 });
 
@@ -228,6 +237,7 @@ app.get('/api/v1/messages/:user', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(200);
       messagesFromAdmin.forEach((element, index) => {
         if (element.receiver === req.params.user) {
           msgs = msgs.concat(element);
@@ -251,6 +261,7 @@ app.post('/api/v1/messages/:user', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(201);
       const newMsg = {
         sender: req.body.sender, message: req.body.message
       };
@@ -263,6 +274,7 @@ app.post('/api/v1/messages/:user', (req, res) => {
 
 // ADMIN
 app.get('/admin', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/adminsignin.html'));
 });
 
@@ -276,18 +288,21 @@ app.post('/admin', (req, res) => {
       result.userFound = true;
       jwt.sign({ signInUser }, 'admin-sec-key', (err, token) => {
         result.token = token;
+        res.status(200);
         res.send(result);
       });
     }
   });
 
   if (!result.userFound) {
+    res.status(200);
     res.send(result);
   }
 });
 
 
 app.get('/admin/admindashboard', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/admindashboard.html'));
 });
 
@@ -296,7 +311,16 @@ app.get('/api/v1/admin/orders', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      res.send(orders);
+      res.status(200);
+      if (orders.length > 0) {
+        let responseObj = { numberOfOrders : orders.length, orders };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfOrders : 'No orders received yet...', orders };
+        res.send(responseObj);
+      }
+      //res.send(responseObj);
     }
   });
 });
@@ -304,6 +328,7 @@ app.get('/api/v1/admin/orders', (req, res) => {
 
 // GET A USERS ORDERS
 app.get('/admin/userorders/:order', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/userorders.html'));
 });
 
@@ -314,12 +339,21 @@ app.get('/api/v1/admin/userorders/:order', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(200);
       orders.forEach((element, index) => {
         if (element.orderID === req.params.order) {
           order = order.concat(element);
         }
       });
-      res.send(order);
+      if (order.length > 0) {
+        let responseObj = { numberOfOrders : orders.length, order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfOrders : 'No orders for this orderID. Please check whether the order ID is correct.', order };
+        res.send(responseObj);
+      }
+      
     }
   });
 });
@@ -332,19 +366,28 @@ app.put('/api/v1/admin/orders/:id', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      res.status(200);
       orders.forEach((element, index) => {
         if (element.orderID === req.params.id) {
           element.status = req.body.status;
           order = order.concat(element);
         }
       });
-      res.send(order);
+      if (order.length > 0) {
+        let responseObj = { numberOfOrders : 'status updated successfully', order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfOrders : 'No orders for this orderID. Please check whether the order ID is correct.', order };
+        res.send(responseObj);
+      }
     }
   });
 });
 
 // FOOD LIST
 app.get('/admin/foodlist', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/adminfoodlist.html'));
 });
 
@@ -353,7 +396,9 @@ app.get('/api/v1/admin/foodlists', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      res.send(foodList);
+      res.status(200);
+      let responseObj = { numberOfFoodItems : foodList.length, foodList };
+      res.send(responseObj);
     }
   });
 });
@@ -361,6 +406,7 @@ app.get('/api/v1/admin/foodlists', (req, res) => {
 
 // ADD FOOD
 app.get('/admin/addfood', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/adminaddfood.html'));
 });
 
@@ -374,7 +420,8 @@ app.post('/api/v1/admin/addfood', (req, res) => {
       };
       foodList.push(newFood);
       res.status(201);
-      res.send(foodList);
+      let responseObj = { status : 'Food added successfully', foodList };
+      res.send(responseObj);
     }
   });
 });
@@ -382,6 +429,7 @@ app.post('/api/v1/admin/addfood', (req, res) => {
 
 // EDIT A FOOD DETAILS
 app.get('/admin/editfood', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/admineditfood.html'));
 });
 
@@ -396,7 +444,15 @@ app.get('/api/v1/admin/food/:name', (req, res) => {
           order = order.concat(element);
         }
       });
-      res.send(order);
+      res.status(200);
+      if (order.length > 0) {
+        let responseObj = { editStatus : 'Food to be edited', order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { editStatus : 'Problem loading food details, check food name', order };
+        res.send(responseObj);
+      }
     }
   });
 });
@@ -414,7 +470,16 @@ app.put('/api/v1/admin/editfood', (req, res) => {
           order = order.concat(element);
         }
       });
-      res.send(order);
+      res.status(200);
+      if (order.length > 0) {
+        let responseObj = { editStatus : 'Food details edited successfully', order };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { editStatus : 'Problem updating food, check food name', order };
+        res.send(responseObj);
+      }
+      
     }
   });
 });
@@ -422,10 +487,11 @@ app.put('/api/v1/admin/editfood', (req, res) => {
 
 // DELETE FOOD =================================================>
 app.get('/admin/deletefood', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/admindeletefood.html'));
 });
 app.delete('/api/v1/admin/deletefood', (req, res) => {
-
+  let deleteSuccess = false;
   jwt.verify(req.token, 'admin-sec-key', (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -433,9 +499,19 @@ app.delete('/api/v1/admin/deletefood', (req, res) => {
       foodList.forEach((element, index) => {
         if (element.foodName === req.body.foodName) {
           foodList.splice(index, 1);
+          deleteSuccess = true;
         }
       });
-      res.send(foodList);
+      
+      if (deleteSuccess) {
+        res.status(200);
+        let responseObj = { deleteStatus : 'Food item deleted successfully', foodList };
+        res.send(responseObj);
+      }
+        else {
+          let responseObj = { deleteStatus : 'Problem deleting food item, check food name', foodName:res.body.foodName };
+          res.send(responseObj);
+        }
     }
   });
 });
@@ -444,6 +520,7 @@ app.delete('/api/v1/admin/deletefood', (req, res) => {
 
 // GET MESSAGES
 app.get('/admin/messages', (req, res) => {
+  res.status(200);
   res.sendFile(path.join(__dirname, '/UI/adminmessages.html'));
 });
 
@@ -452,7 +529,15 @@ app.get('/api/v1/admin/messages', (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      res.send(messagesToAdmin);
+      res.status(200);
+      if (messagesToAdmin.length > 0) {
+        let responseObj = { numberOfMessages : messagesToAdmin.length, messagesToAdmin };
+        res.send(responseObj);
+      }
+      else {
+        let responseObj = { numberOfMessages : 'No messages yet from customers!', messagesToAdmin };
+        res.send(responseObj);
+      }
     }
   });
 });
@@ -474,9 +559,15 @@ app.post('/api/v1/admin/messages', (req, res) => {
           receiver: req.body.receiver, message: req.body.message
         };
         messagesFromAdmin.push(newMsg);
+        res.status(201);
+        result.status = 'Message sent successfully';
+        res.send(result);
       }
-
-      res.send(result);
+      else {
+        result.status = 'Problem with sending message.';
+        res.send(result);
+      }
+      
     }
   });
 });

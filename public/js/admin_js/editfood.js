@@ -20,7 +20,7 @@ function getDetails () {
       let orders = JSON.parse(JSON.stringify(data));
       console.log(orders);
 
-      orders.forEach(function (elementf, index) {
+      orders.order.forEach(function (elementf, index) {
         foodName.innerHTML = elementf.foodName;
         foodDesc.innerHTML = elementf.foodDesc;
         foodPrice.innerHTML = elementf.foodPrice;
