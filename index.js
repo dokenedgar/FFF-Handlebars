@@ -398,7 +398,7 @@ app.get('/api/v1/admin/foodlists', (req, res) => {
     } else {
       res.status(200);
       let responseObj = { numberOfFoodItems : foodList.length, foodList };
-      res.send(resp);
+      res.send(responseObj);
     }
   });
 });
