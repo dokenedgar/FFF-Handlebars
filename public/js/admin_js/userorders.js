@@ -1,11 +1,10 @@
 let tblHistory = document.getElementById('history');
 let status;
-let updateOrder;// = row.insertCell(7);
+let updateOrder;
 fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage.orderID, { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
-    console.log(orders);
     orders.order.forEach(function (element, index) {
       element.order.forEach(function (elementf, index) {
         let row = tblHistory.insertRow(index + 1);
@@ -32,9 +31,9 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage
       updateOrder.innerHTML = '<input id="update" value="UPDATE" readonly onclick="updateOrderFunction()">';
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(err))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 
-function updateOrderFunction () {
+let updateOrderFunction = () => {
 			//Send data to server
 			let newStatus = document.getElementById('status').value;
 		fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/'+localStorage.orderID, {
@@ -46,5 +45,5 @@ function updateOrderFunction () {
 		.then((data) => { 
 					window.location.href = 'https://dokenedgar.herokuapp.com/admin/userorders/'+localStorage.orderID;
 				 })
-		.catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(err))//window.alert(err))// 
+		.catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }

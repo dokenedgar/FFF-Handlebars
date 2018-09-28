@@ -1,10 +1,8 @@
 let tblHistory = document.getElementById('inbox');
-
 fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
-    // let orders = data;
     console.log(orders);
     orders.msgs.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);

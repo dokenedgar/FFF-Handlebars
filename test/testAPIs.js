@@ -1,21 +1,17 @@
 'use strict';
 
-const assert = require('assert');
-
-const expect = require('chai').expect;
-// const { expect } = require('chai');
-
-const chai = require('chai');
-chai.use(require('chai-http'));
-const app = require('../index.js');
-
+import { expect } from 'chai';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../index.js';
+chai.use(chaiHttp);
 let jwtToken;
 let adminJwtToken;
 
 describe('Userstest with chai http', function () {
   this.timeout(5000);
 
-  it('Home page should. return status code of 200', () => {
+  it('Home page should return status code of 200', () => {
     return chai.request(app)
       .get('/')
       .then( (res) => {
@@ -33,9 +29,13 @@ describe('Userstest with chai http', function () {
 
   it('user authentication - user not found', () => {
     return chai.request(app)
-      .get('/signin/username/password')
+      .post('/signin')
+      send({
+        username: 'peter007',
+        password: 'm@rkp3t3r'
+      })
       .then((res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(400);
         expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(false);
       });
@@ -43,12 +43,15 @@ describe('Userstest with chai http', function () {
 
   it('user authentication - user found', () => {
     return chai.request(app)
-      .get('/signin/McDave/pword')
+      .post('/signin')
+      send({
+        username: 'McDave',
+        password: 'pword'
+      })
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(true);
-        jwtToken = res.body.token;
       });
   });
 
@@ -60,20 +63,20 @@ describe('Userstest with chai http', function () {
       });
   });
 
-   it('signin up a new user', () => {
+ it('signin up a new user', () => {
     return chai.request(app)
       .post('/signup')
       .send({
-        fname: 'Peter',
-        sname: 'Mark',
+        firstname: 'Peter',
+        surname: 'Mark',
         phone: '08098273465',
         username: 'peter007',
-        pword: 'm@rkp3t3r'
+        password: 'm@rkp3t3r'
       })
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.fname).to.equal('Peter');
+        expect(res.body.newUser.firstname).to.equal('Peter');
       });
   });
 
@@ -123,7 +126,7 @@ describe('Userstest with chai http', function () {
 
   it('api endpoint for getting users specific order', () => {
     return chai.request(app)
-      .get('/api/v1/order/orderid')
+      .get('/api/v1/orders/orderid')
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
@@ -133,7 +136,7 @@ describe('Userstest with chai http', function () {
 
   it('api for placing a new order', () => {
     return chai.request(app)
-      .post('/api/v1/placeOrder/Peter')
+      .post('/api/v1/orders/Peter')
       .set('authorization', `Bearer ${jwtToken}`)
       .send({
         body: [
@@ -195,16 +198,16 @@ describe('ADMIN API TESTS', function () {
 
  it('login in an admin', () => {
     return chai.request(app)
-      .post('/admin')
+      .post('/api/v1/admin')
       .send({
-        uname: 'sergio',
-        pword: 'ramos',
+        username: 'sergio',
+        password: 'ramos',
       })
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body.userFound).to.equal(true);
-        adminJwtToken = res.body.token;
+        //adminJwtToken = res.body.token;
       });
   });   
 
@@ -228,7 +231,7 @@ describe('ADMIN API TESTS', function () {
 
   it('admin - get a users specific order', () => {
     return chai.request(app)
-      .get('/admin/userorders/orderid')
+      .get('/admin/orders/orderid')
       .then((res) => {
         expect(res).to.have.status(200);
       });
@@ -236,7 +239,7 @@ describe('ADMIN API TESTS', function () {
 
   it('api for getting users orders', () => {
     return chai.request(app)
-      .get('/api/v1/admin/userorders/orderID')
+      .get('/api/v1/admin/orders/orderID')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
@@ -282,7 +285,7 @@ describe('ADMIN API TESTS', function () {
 
   it('admin - api endpoint for adding food', () => {
     return chai.request(app)
-      .post('/api/v1/admin/addfood')
+      .post('/api/v1/admin/food')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .send({
         foodName: 'Rice',
@@ -315,7 +318,7 @@ describe('ADMIN API TESTS', function () {
 
   it('api updating user orders status', () => {
     return chai.request(app)
-      .put('/api/v1/admin/editfood')
+      .put('/api/v1/admin/food')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .send({
         foodName: 'Rice',
@@ -338,7 +341,7 @@ describe('ADMIN API TESTS', function () {
 
   it('admin - api for deleting a food from the menu', () => {
     return chai.request(app)
-      .delete('/api/v1/admin/deletefood')
+      .delete('/api/v1/admin/food')
       .set('authorization', `Bearer ${adminJwtToken}`)
       .send({
         foodName: 'Rice'

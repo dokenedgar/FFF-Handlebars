@@ -8,13 +8,12 @@ let Element_total = document.getElementById('total');
 let totalAmount = 0;
 
 let orders = [];
-function addToOrder (CheckBoxelement) {
+let addToOrder = (CheckBoxelement) => {
   let foodName = document.getElementById('foodName');
   let checkValue = CheckBoxelement.value;
   let detail = checkValue.split(',');
 
   if (CheckBoxelement.checked === true) {
-    // create order summary object for selected food
     let newOrder = { food: detail[0], price: detail[1], quantity: detail[2] };
     orders.push(newOrder);
     totalAmount += Number(detail[1]);
@@ -111,7 +110,7 @@ function addToOrder (CheckBoxelement) {
   }
 }
 
-function submitOrderButton() {
+let submitOrderButton = () => {
   if (item > 0) {
     fetch('https://dokenedgar.herokuapp.com/api/v1/placeOrder/' + localStorage.loggedUser, {
       method: 'POST',
@@ -121,7 +120,7 @@ function submitOrderButton() {
       .then((resp) => resp.json())
       .then((data) => {
         let obj = JSON.parse(JSON.stringify(data));
-        window.location.href = '/orders' ; //+ localStorage.loggedUser + '/orders';
+        window.location.href = '/orders' ;
       })
       .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }

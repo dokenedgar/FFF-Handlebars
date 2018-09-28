@@ -1,7 +1,5 @@
 let tblHistory = document.getElementById('food-menu');
-
 fetch('https://dokenedgar.herokuapp.com/menu/api/v1/menu')
-//fetch('/menu/api/v1/menu')
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -18,6 +16,4 @@ fetch('https://dokenedgar.herokuapp.com/menu/api/v1/menu')
       price.innerHTML = elementf.foodPrice;
     });
   })
-  .catch((err) => console.log(err) )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
-
-  //Check jwt requirements
+  .catch((err) => console.log(err) )

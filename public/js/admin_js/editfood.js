@@ -12,14 +12,12 @@ lblDesc.style.display = 'none';
 foodDesc.style.display = 'none';
 btnUpdateDetails.style.display = 'none';
 
-function getDetails () {
+let getDetails = () => {
   let food = foodName.value;
   fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
     .then((resp) => resp.json())
     .then((data) => {
       let orders = JSON.parse(JSON.stringify(data));
-      console.log(orders);
-
       orders.order.forEach(function (elementf, index) {
         foodName.innerHTML = elementf.foodName;
         foodDesc.innerHTML = elementf.foodDesc;
@@ -34,25 +32,25 @@ function getDetails () {
       btngetDetails.style.display = 'none';
 
     })
-    .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
+    .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }
 
-function updateDetails () {
-  let f_name = foodName.value;
-  let f_price = foodPrice.value;
-  let f_desc = foodDesc.value;
+let updateDetails = () =>{
+  let foodname = foodName.value;
+  let foodprice = foodPrice.value;
+  let fooddesc = foodDesc.value;
   let signInerrors = document.getElementById('errors');
-  if (f_name.length < 2 || f_price < 2 || f_desc < 5) {
+  if (foodname.length < 2 || foodprice < 2 || fooddesc < 5) {
     signInerrors.innerHTML = 'Name and price have to be atleast 2 characters, while description at least 5 characters!';
   }
   else {
     fetch('https://dokenedgar.herokuapp.com/api/v1/admin/editfood', {
       method: 'PUT',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.admin_token },
-      body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })
+      body: JSON.stringify({ foodName: foodname, foodPrice: foodprice, foodDesc: fooddesc })
     })
       .then((resp) => { signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food edited successfully'; })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }

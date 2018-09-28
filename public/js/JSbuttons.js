@@ -2,7 +2,7 @@ let signInerrors = document.getElementById('errors');
 let name = document.getElementById('msgName');
 
 
-function signIn () {
+let signIn = () => {
   let user_name = document.getElementById('txtusername').value;
   let pass_word = document.getElementById('txtpassword').value;
 
@@ -11,16 +11,13 @@ function signIn () {
   }
   else {
     // Send data to server
-    //fetch('https://dokenedgar.herokuapp.com/signin/' + user_name + '/' + pass_word)
-    fetch('/signin/' + user_name + '/' + pass_word)
+    fetch('https://dokenedgar.herokuapp.com/signin/' + user_name + '/' + pass_word)
       .then((resp) => resp.json())
       .then((data) => {
         let user = JSON.parse(JSON.stringify(data));
-        // console.log(user)
         if (user.userFound) {
-          localStorage.loggedUser = user_name; // localStorage.removeItem(loggedUser)
+          localStorage.loggedUser = user_name; 
           localStorage.fff_token = user.token;
-          //window.location.href = 'https://dokenedgar.herokuapp.com/menu';
           window.location.href = '/menu';
         }
         else {
@@ -31,7 +28,7 @@ function signIn () {
   }
 }
 
-function signUp () {
+let signUp = () => {
   let f_name = document.getElementById('txtFname');
   let s_name = document.getElementById('txtSname');
   let phone_Num = document.getElementById('txtPhoneNum');
@@ -92,8 +89,7 @@ function signUp () {
   }
 }
 
-function sendMsg () {
-  //let name = document.getElementById('msgName').value;
+let sendMsg = () => {
   name.value = localStorage.loggedUser;
   let msg = document.getElementById('txtMsg').value;
   if (name.length < 2 || msg < 5) {
@@ -115,16 +111,14 @@ function sendMsg () {
   }
 }
 
-function adminsignin () {
+let adminsignin = () => {
   let user_name = document.getElementById('txtusername').value;
   let pass_word = document.getElementById('txtpassword').value;
 
   if (user_name.lenth < 5 || pass_word.length < 5) {
-  // window.alert("Input less than 5");
     signInerrors.innerHTML = 'Username and password have to be at least 5 characters!';
   }
   else {
-  // window.location.href = './admindashboard.html';
     fetch('https://dokenedgar.herokuapp.com/admin', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -142,6 +136,6 @@ function adminsignin () {
           signInerrors.innerHTML = 'Username or password incorrect';
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin' )
   }
 }

@@ -1,4 +1,4 @@
-function addFood () {
+let addFood = () =>{
   let f_name = document.getElementById('foodName').value;
   let f_price = document.getElementById('foodPrice').value;
   let f_desc = document.getElementById('desc').value;
@@ -16,6 +16,6 @@ function addFood () {
       	signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food added successfully';
       })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }

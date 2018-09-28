@@ -5,7 +5,6 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'au
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
-    console.log(orders);
     orders.messagesToAdmin.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);
       let serialNum = row.insertCell(0);
@@ -18,9 +17,9 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'au
       dateReceived.innerHTML = new Date().toUTCString();
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 
-function sendAdminMsg () {
+let sendAdminMsg = () =>{
   let name = document.getElementById('msgName').value;
   let msg = document.getElementById('txtMsg').value;
   if (name.length < 2 || msg < 5) {
@@ -44,6 +43,6 @@ function sendAdminMsg () {
           signInerrors.innerHTML = 'Problem sending message. Possibly check receiver username..';
         }
       })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(error))
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }

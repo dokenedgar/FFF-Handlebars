@@ -4,7 +4,6 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
-    console.log(orders);
     orders.foodList.forEach(function (elementf, index) {
       let row = tblHistory.insertRow(index + 1);
       let serialNum = row.insertCell(0);
@@ -17,4 +16,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
       price.innerHTML = elementf.foodPrice;
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')//console.log(err))
+  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
