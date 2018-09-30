@@ -1,6 +1,6 @@
 let Orderbtn = document.getElementById('checkOut_btn');
 Orderbtn.style.opacity = '0.3';
-let lastAddedElement = document.getElementById('foodName');
+let lastAddedElementID = document.getElementById('foodName');
 let parentDiv = document.getElementById('foodName').parentNode;
 let item = 0;
 

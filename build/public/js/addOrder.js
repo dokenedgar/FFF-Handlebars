@@ -2,7 +2,7 @@
 
 var Orderbtn = document.getElementById('checkOut_btn');
 Orderbtn.style.opacity = '0.3';
-var lastAddedElement = document.getElementById('foodName');
+var lastAddedElementID = document.getElementById('foodName');
 var parentDiv = document.getElementById('foodName').parentNode;
 var item = 0;
 
