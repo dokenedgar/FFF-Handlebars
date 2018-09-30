@@ -27,7 +27,7 @@ var addToOrder = function addToOrder(CheckBoxelement) {
     para.appendChild(paraText);
     parentDiv.insertBefore(para, lastAddedElement);
     parentDiv = document.getElementById(detail[0]).parentNode;
-    lastAddedElementID = document.getElementById(detail[0]);
+    var lastAddedElementID = document.getElementById(detail[0]);
     Orderbtn.style.opacity = '1';
 
     var btnminus = document.createElement('BUTTON');
