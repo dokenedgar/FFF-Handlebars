@@ -5,8 +5,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));
-  console.log(orders);
-  orders.msgs.forEach(function (elementf, index) {
+  orders.messages.forEach(function (elementf, index) {
     var row = tblHistory.insertRow(index + 1);
     var serialNum = row.insertCell(0);
     var message = row.insertCell(1);
@@ -21,14 +20,14 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
 
 var sendMsg = function sendMsg() {
   name.value = localStorage.loggedUser;
-  var msg = document.getElementById('txtMsg').value;
-  if (name.length < 2 || msg < 5) {
+  var message = document.getElementById('txtMsg').value;
+  if (name.length < 2 || message < 5) {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
   } else {
     fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.fff_token },
-      body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
+      body: JSON.stringify({ sender: localStorage.loggedUser, message: message })
     }).then(function (resp) {
       return resp.json();
     }).then(function (resp) {
