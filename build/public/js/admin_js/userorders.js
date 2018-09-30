@@ -3,7 +3,7 @@
 var tblHistory = document.getElementById('history');
 var status = void 0;
 var updateOrder = void 0;
-fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage.orderID, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
+fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.orderID, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));
@@ -19,7 +19,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/userorders/' + localStorage
       status = row.insertCell(6);
       updateOrder = row.insertCell(7);
 
-      var url = 'https://dokenedgar.herokuapp.com/admin/userorders/' + element.orderID;
+      var url = 'https://dokenedgar.herokuapp.com/admin/orders/' + element.orderID;
       localStorage.orderID = element.orderID;
       orderID.innerHTML = '<a href= ' + url + '>' + element.orderID + '</a>';
       userID.innerHTML = element.user;
@@ -46,7 +46,7 @@ var updateOrderFunction = function updateOrderFunction() {
   }).then(function (resp) {
     return resp.json();
   }).then(function (data) {
-    window.location.href = 'https://dokenedgar.herokuapp.com/admin/userorders/' + localStorage.orderID;
+    window.location.href = 'https://dokenedgar.herokuapp.com/admin/orders/' + localStorage.orderID;
   }).catch(function (err) {
     return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
   });

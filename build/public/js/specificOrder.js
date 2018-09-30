@@ -1,7 +1,7 @@
 'use strict';
 
 var tblHistory = document.getElementById('history');
-fetch('https://dokenedgar.herokuapp.com/api/v1/order/' + localStorage.orderID, { headers: { 'authorization': 'Bearer ' + localStorage.fff_token } }).then(function (resp) {
+fetch('https://dokenedgar.herokuapp.com/api/v1/orders/' + localStorage.orderID, { headers: { 'authorization': 'Bearer ' + localStorage.fff_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));

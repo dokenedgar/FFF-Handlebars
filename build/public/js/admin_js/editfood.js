@@ -45,7 +45,7 @@ var updateDetails = function updateDetails() {
   if (foodname.length < 2 || foodprice < 2 || fooddesc < 5) {
     signInerrors.innerHTML = 'Name and price have to be atleast 2 characters, while description at least 5 characters!';
   } else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/editfood', {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food', {
       method: 'PUT',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.admin_token },
       body: JSON.stringify({ foodName: foodname, foodPrice: foodprice, foodDesc: fooddesc })

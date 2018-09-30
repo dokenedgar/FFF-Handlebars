@@ -105,7 +105,7 @@ var addToOrder = function addToOrder(CheckBoxelement) {
 
 var submitOrderButton = function submitOrderButton() {
   if (item > 0) {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/placeOrder/' + localStorage.loggedUser, {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/orders/' + localStorage.loggedUser, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.fff_token },
       body: JSON.stringify(orders)
