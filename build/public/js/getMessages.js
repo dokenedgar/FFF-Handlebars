@@ -22,7 +22,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
 });
 
 var sendMsg = function sendMsg() {
-  name.value = localStorage.loggedUser;
+  name = localStorage.loggedUser;
   var message = document.getElementById('txtMsg').value;
   if (name.length < 2 || message < 5) {
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
