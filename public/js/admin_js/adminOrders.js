@@ -14,7 +14,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders', { headers: { 'auth
         let price = row.insertCell(4);
         let dateOrdered = row.insertCell(5);
         let status = row.insertCell(6);
-        let url = 'https://dokenedgar.herokuapp.com/admin/userorders/' + element.orderID;
+        let url = 'https://dokenedgar.herokuapp.com/admin/orders/' + element.orderID;
         localStorage.orderID = element.orderID;
         orderID.innerHTML = '<a href= ' + url + '>' + element.orderID + '</a>';
         userID.innerHTML = element.user;

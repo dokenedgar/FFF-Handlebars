@@ -15,3 +15,25 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
     });
   })
   .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+
+  let sendMsg = () => {
+  name.value = localStorage.loggedUser;
+  let msg = document.getElementById('txtMsg').value;
+  if (name.length < 2 || msg < 5) {
+    signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
+  }
+  else {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser , {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.fff_token },
+      body: JSON.stringify({ sender: localStorage.loggedUser, message: msg })
+    })
+    .then((resp) => {
+        return resp.json();
+        })
+      .then((resp) => {
+      signInerrors.style.color = 'green';
+        signInerrors.innerHTML = 'Message sent successfully'; })
+      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  }
+}

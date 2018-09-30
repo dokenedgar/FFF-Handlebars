@@ -267,7 +267,7 @@ app.get('/api/v1/admin/orders', (req, res) => {
 });
 
 // GET A USERS ORDERS
-app.get('/admin/orders/:order', (req, res) => {
+app.get('/admin/orders/:orderid', (req, res) => {
   res.status(200);
   res.sendFile(path.join(__dirname, '../UI/userorders.html'));
 });

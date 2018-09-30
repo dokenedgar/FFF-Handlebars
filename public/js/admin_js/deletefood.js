@@ -44,7 +44,7 @@ let deleteDetails = () => {
   let foodprice = foodPrice.value;
   let fooddesc = foodDesc.value;
   let signInerrors = document.getElementById('errors');
-  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/deletefood', {
+  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food', {
     method: 'DELETE',
     headers: { 'content-type': 'application/json' , 'authorization': 'Bearer '+localStorage.admin_token },
     body: JSON.stringify({ foodName: foodname, foodPrice: foodprice, foodDesc: fooddesc })

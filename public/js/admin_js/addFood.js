@@ -7,7 +7,7 @@ let addFood = () =>{
     signInerrors.innerHTML = 'Name and price have to be atleast 2 characters, while description at least 5 characters!';
   }
   else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/addfood', {
+    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.admin_token },
       body: JSON.stringify({ foodName: f_name, foodPrice: f_price, foodDesc: f_desc })
