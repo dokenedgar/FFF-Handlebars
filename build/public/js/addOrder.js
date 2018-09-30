@@ -2,7 +2,7 @@
 
 var Orderbtn = document.getElementById('checkOut_btn');
 Orderbtn.style.opacity = '0.3';
-var lastAddedElementID = document.getElementById('foodName');
+var lastAddedElement = document.getElementById('foodName');
 var parentDiv = document.getElementById('foodName').parentNode;
 var item = 0;
 
@@ -28,7 +28,7 @@ var addToOrder = function addToOrder(CheckBoxelement) {
     para.appendChild(paraText);
     parentDiv.insertBefore(para, lastAddedElement);
     parentDiv = document.getElementById(detail[0]).parentNode;
-    lastAddedElementID = document.getElementById(detail[0]);
+    var lastAddedElementID = document.getElementById(detail[0]);
     Orderbtn.style.opacity = '1';
 
     var btnminus = document.createElement('BUTTON');
