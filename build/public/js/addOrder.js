@@ -10,7 +10,7 @@ var Element_total = document.getElementById('total');
 var totalAmount = 0;
 
 var orders = [];
-function addToOrder(CheckBoxelement) {
+var addToOrder = function addToOrder(CheckBoxelement) {
   var foodName = document.getElementById('foodName');
   var checkValue = CheckBoxelement.value;
   var detail = checkValue.split(',');
@@ -102,9 +102,9 @@ function addToOrder(CheckBoxelement) {
       Orderbtn.style.opacity = '0.3';
     }
   }
-}
+};
 
-function submitOrderButton() {
+var submitOrderButton = function submitOrderButton() {
   if (item > 0) {
     fetch('https://dokenedgar.herokuapp.com/api/v1/placeOrder/' + localStorage.loggedUser, {
       method: 'POST',
@@ -119,4 +119,4 @@ function submitOrderButton() {
       return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
     });
   }
-}
+};

@@ -8,7 +8,7 @@ let Element_total = document.getElementById('total');
 let totalAmount = 0;
 
 let orders = [];
-function addToOrder (CheckBoxelement) {
+let addToOrder = (CheckBoxelement) => {
   let foodName = document.getElementById('foodName');
   let checkValue = CheckBoxelement.value;
   let detail = checkValue.split(',');
@@ -111,7 +111,7 @@ function addToOrder (CheckBoxelement) {
   }
 }
 
-function submitOrderButton() {
+let submitOrderButton = () =>{
   if (item > 0) {
     fetch('https://dokenedgar.herokuapp.com/api/v1/placeOrder/' + localStorage.loggedUser, {
       method: 'POST',
