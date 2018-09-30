@@ -30,7 +30,7 @@ ul {
 }
 /*Header*/
 header {
-  background: url("../images/chef.jpg") no-repeat 0 -250px;
+  background: url("/chef.jpg") no-repeat 0 -250px;
   color: #ffffff;
   min-width: 70px;
 }
