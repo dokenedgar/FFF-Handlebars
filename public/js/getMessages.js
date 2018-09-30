@@ -1,4 +1,7 @@
+let signInerrors = document.getElementById('errors');
+let name = document.getElementById('msgName');
 let tblHistory = document.getElementById('inbox');
+
 fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {

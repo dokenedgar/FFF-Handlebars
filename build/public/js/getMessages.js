@@ -1,6 +1,9 @@
 'use strict';
 
+var signInerrors = document.getElementById('errors');
+var name = document.getElementById('msgName');
 var tblHistory = document.getElementById('inbox');
+
 fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer ' + localStorage.fff_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
