@@ -283,7 +283,7 @@ app.get('/api/v1/admin/orders/:orderid', (req, res) => {
     }
   });
   if (order.length > 0) {
-    let responseObj = { message: 'Orders for user, with order ID '+req.params.orderid, order };
+    let responseObj = { message: 'Orders for user, with order ID ' + req.params.orderid, order };
     res.send(responseObj);
   }
   else {

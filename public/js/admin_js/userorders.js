@@ -31,7 +31,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.ord
       updateOrder.innerHTML = '<input id="update" value="UPDATE" readonly onclick="updateOrderFunction()">';
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => window.location.href = console.log(err)) //'https://dokenedgar.herokuapp.com/signin')
 
 let updateOrderFunction = () => {
 			//Send data to server

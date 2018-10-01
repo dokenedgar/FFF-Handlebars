@@ -33,8 +33,8 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.ord
     updateOrder.innerHTML = '<input id="update" value="UPDATE" readonly onclick="updateOrderFunction()">';
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return window.location.href = console.log(err);
+}); //'https://dokenedgar.herokuapp.com/signin')
 
 var updateOrderFunction = function updateOrderFunction() {
   //Send data to server
