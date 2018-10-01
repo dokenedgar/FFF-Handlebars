@@ -278,12 +278,12 @@ app.get('/api/v1/admin/orders/:orderid', (req, res) => {
   let order = [];
   res.status(200);
   orders.forEach((element, index) => {
-    if (element.orderID === req.params.order) {
+    if (element.orderID === req.params.orderid) {
       order = order.concat(element);
     }
   });
   if (order.length > 0) {
-    let responseObj = { message: 'Orders for user, with order ID '+req.params.order, numberOfItemsInOrder: order[2].length, order };
+    let responseObj = { message: 'Orders for user, with order ID '+req.params.orderid, numberOfItemsInOrder: order[2].length, order };
     res.send(responseObj);
   }
   else {

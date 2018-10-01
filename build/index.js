@@ -262,12 +262,12 @@ app.get('/api/v1/admin/orders/:orderid', function (req, res) {
   var order = [];
   res.status(200);
   orders.forEach(function (element, index) {
-    if (element.orderID === req.params.order) {
+    if (element.orderID === req.params.orderid) {
       order = order.concat(element);
     }
   });
   if (order.length > 0) {
-    var responseObj = { message: 'Orders for user, with order ID ' + req.params.order, numberOfItemsInOrder: order[2].length, order: order };
+    var responseObj = { message: 'Orders for user, with order ID ' + req.params.orderid, numberOfItemsInOrder: order[2].length, order: order };
     res.send(responseObj);
   } else {
     var _responseObj5 = { numberOfOrders: 'No orders for this orderID. Please check whether the order ID is correct.', order: order };
