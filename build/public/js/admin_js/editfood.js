@@ -16,7 +16,7 @@ btnUpdateDetails.style.display = 'none';
 
 var getDetails = function getDetails() {
   var food = foodName.value;
-  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
+  fetch('http://localhost:3000/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
     return resp.json();
   }).then(function (data) {
     var orders = JSON.parse(JSON.stringify(data));
@@ -33,7 +33,7 @@ var getDetails = function getDetails() {
     btnUpdateDetails.style.display = 'block';
     btngetDetails.style.display = 'none';
   }).catch(function (err) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+    return window.location.href = 'http://localhost:3000/signin';
   });
 };
 
@@ -45,7 +45,7 @@ var updateDetails = function updateDetails() {
   if (foodname.length < 2 || foodprice < 2 || fooddesc < 5) {
     signInerrors.innerHTML = 'Name and price have to be atleast 2 characters, while description at least 5 characters!';
   } else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food', {
+    fetch('http://localhost:3000/api/v1/admin/food', {
       method: 'PUT',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.admin_token },
       body: JSON.stringify({ foodName: foodname, foodPrice: foodprice, foodDesc: fooddesc })
@@ -53,7 +53,7 @@ var updateDetails = function updateDetails() {
       signInerrors.style.color = 'green';
       signInerrors.innerHTML = 'Food edited successfully';
     }).catch(function (error) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+      return window.location.href = 'http://localhost:3000/signin';
     });
   }
 };

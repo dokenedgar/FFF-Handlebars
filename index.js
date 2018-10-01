@@ -287,7 +287,7 @@ app.get('/api/v1/admin/orders/:orderid', (req, res) => {
     res.send(responseObj);
   }
   else {
-    let responseObj = { numberOfOrders : 'No orders for this orderID. Please check whether the order ID is correct.', order };
+    let responseObj = { message : 'No orders for this orderID. Please check whether the order ID is correct.', order };
     res.send(responseObj);
   }      
 });

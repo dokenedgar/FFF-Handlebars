@@ -2,7 +2,7 @@
 
 var tblHistory = document.getElementById('inbox');
 
-fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
+fetch('http://localhost:3000/api/v1/admin/foodlists', { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));
@@ -18,5 +18,5 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
     price.innerHTML = elementf.foodPrice;
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+  return window.location.href = 'http://localhost:3000/signin';
 });

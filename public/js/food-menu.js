@@ -1,5 +1,5 @@
 let tblHistory = document.getElementById('food-menu');
-fetch('https://dokenedgar.herokuapp.com/menu/api/v1/menu')
+fetch('http://localhost:3000/menu/api/v1/menu')
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));

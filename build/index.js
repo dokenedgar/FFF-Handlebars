@@ -270,7 +270,7 @@ app.get('/api/v1/admin/orders/:orderid', function (req, res) {
     var responseObj = { message: 'Orders for user, with order ID ' + req.params.orderid, order: order };
     res.send(responseObj);
   } else {
-    var _responseObj5 = { numberOfOrders: 'No orders for this orderID. Please check whether the order ID is correct.', order: order };
+    var _responseObj5 = { message: 'No orders for this orderID. Please check whether the order ID is correct.', order: order };
     res.send(_responseObj5);
   }
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 var tblHistory = document.getElementById('food-menu');
-fetch('https://dokenedgar.herokuapp.com/menu/api/v1/menu').then(function (resp) {
+fetch('http://localhost:3000/menu/api/v1/menu').then(function (resp) {
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));

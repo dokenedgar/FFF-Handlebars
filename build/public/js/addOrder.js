@@ -105,7 +105,7 @@ var addToOrder = function addToOrder(CheckBoxelement) {
 
 var submitOrderButton = function submitOrderButton() {
   if (item > 0) {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/orders/' + localStorage.loggedUser, {
+    fetch('http://localhost:3000/api/v1/orders/' + localStorage.loggedUser, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.fff_token },
       body: JSON.stringify(orders)
@@ -115,7 +115,7 @@ var submitOrderButton = function submitOrderButton() {
       var obj = JSON.parse(JSON.stringify(data));
       window.location.href = '/orders';
     }).catch(function (err) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+      return window.location.href = 'http://localhost:3000/signin';
     });
   }
 };

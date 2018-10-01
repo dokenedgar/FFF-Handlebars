@@ -5,7 +5,7 @@ let adminsignin = () => {
     signInerrors.innerHTML = 'Username and password have to be at least 5 characters!';
   }
   else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/admin', {
+    fetch('http://localhost:3000/api/v1/admin', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ username: user_name, password: pass_word })
@@ -22,6 +22,6 @@ let adminsignin = () => {
           signInerrors.innerHTML = 'Username or password incorrect';
         }
       })
-      .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin' )
+      .catch((err) => window.location.href = 'http://localhost:3000/signin' )
   }
 }

@@ -16,7 +16,7 @@ btnUpdateDetails.style.display = 'none';
 
 var getDetails = function getDetails() {
   var food = foodName.value;
-  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
+  fetch('http://localhost:3000/api/v1/admin/food/' + food, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
     return resp.json();
   }).then(function (data) {
     var orders = JSON.parse(JSON.stringify(data));
@@ -38,7 +38,7 @@ var getDetails = function getDetails() {
 
     btngetDetails.style.display = 'none';
   }).catch(function (err) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+    return window.location.href = 'http://localhost:3000/signin';
   });
 };
 
@@ -47,7 +47,7 @@ var deleteDetails = function deleteDetails() {
   var foodprice = foodPrice.value;
   var fooddesc = foodDesc.value;
   var signInerrors = document.getElementById('errors');
-  fetch('https://dokenedgar.herokuapp.com/api/v1/admin/food', {
+  fetch('http://localhost:3000/api/v1/admin/food', {
     method: 'DELETE',
     headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + localStorage.admin_token },
     body: JSON.stringify({ foodName: foodname, foodPrice: foodprice, foodDesc: fooddesc })
@@ -55,6 +55,6 @@ var deleteDetails = function deleteDetails() {
     signInerrors.style.color = 'red';
     signInerrors.innerHTML = 'Food deleted successfully';
   }).catch(function (error) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+    return window.location.href = 'http://localhost:3000/signin';
   });
 };

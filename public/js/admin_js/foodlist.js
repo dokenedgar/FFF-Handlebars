@@ -1,6 +1,6 @@
 let tblHistory = document.getElementById('inbox');
 
-fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
+fetch('http://localhost:3000/api/v1/admin/foodlists', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -16,4 +16,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
       price.innerHTML = elementf.foodPrice;
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => window.location.href = 'http://localhost:3000/signin')

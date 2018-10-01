@@ -1,7 +1,7 @@
 let tblHistory = document.getElementById('inbox');
 let signInerrors = document.getElementById('errors');
 
-fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
+fetch('http://localhost:3000/api/v1/admin/messages', { headers: { 'authorization': 'Bearer '+localStorage.admin_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -17,7 +17,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'au
       dateReceived.innerHTML = new Date().toUTCString();
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => window.location.href = 'http://localhost:3000/signin')
 
 let sendAdminMsg = () =>{
   let name = document.getElementById('msgName').value;
@@ -26,7 +26,7 @@ let sendAdminMsg = () =>{
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
     }
     else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', {
+    fetch('http://localhost:3000/api/v1/admin/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json' , 'authorization': 'Bearer '+localStorage.admin_token },
       body: JSON.stringify({ receiver: name, message: msg })
@@ -43,6 +43,6 @@ let sendAdminMsg = () =>{
           signInerrors.innerHTML = 'Problem sending message. Possibly check receiver username..';
         }
       })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+      .catch((error) => window.location.href = 'http://localhost:3000/signin')
   }
 }

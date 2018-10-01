@@ -2,7 +2,7 @@ let signInerrors = document.getElementById('errors');
 let name = document.getElementById('msgName');
 let tblHistory = document.getElementById('inbox');
 
-fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
+fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser, { headers: { 'authorization': 'Bearer '+localStorage.fff_token } })
   .then((resp) => resp.json())
   .then((data) => {
     let orders = JSON.parse(JSON.stringify(data));
@@ -16,7 +16,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
       dateReceived.innerHTML = new Date().toUTCString();
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => window.location.href = 'http://localhost:3000/signin')
 
   let sendMsg = () => {
   name = localStorage.loggedUser;
@@ -25,7 +25,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
     signInerrors.innerHTML = 'Name has to be atleast 2 characters and message at least 5 characters!';
   }
   else {
-    fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedUser , {
+    fetch('http://localhost:3000/api/v1/messages/' + localStorage.loggedUser , {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'authorization': 'Bearer '+localStorage.fff_token },
       body: JSON.stringify({ sender: localStorage.loggedUser, message })
@@ -36,6 +36,6 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
       .then((resp) => {
       signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Message sent successfully'; })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+      .catch((error) => window.location.href = 'http://localhost:3000/signin')
   }
 }

@@ -11,7 +11,7 @@ var signIn = function signIn() {
     signInerrors.innerHTML = 'Username and password have to be at least 5 characters';
   } else {
     // Send data to server
-    fetch('https://dokenedgar.herokuapp.com/signin/', {
+    fetch('http://localhost:3000/signin/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ username: user_name, password: pass_word })
@@ -81,7 +81,7 @@ var signUp = function signUp() {
     errors = '';
   } else {
     // Send data to server
-    fetch('https://dokenedgar.herokuapp.com/signup', {
+    fetch('http://localhost:3000/signup', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ fname: f_name.value, sname: s_name.value, phone: phone_Num.value, username: user_name.value, pword: password.value })

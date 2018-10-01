@@ -2,4 +2,4 @@
 
 localStorage.removeItem(loggedUser);
 
-window.location.href = 'https://dokenedgar.herokuapp.com/';
+window.location.href = 'http://localhost:3000/';

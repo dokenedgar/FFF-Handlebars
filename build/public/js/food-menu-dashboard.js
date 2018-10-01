@@ -1,7 +1,7 @@
 'use strict';
 
 var tblHistory = document.getElementById('food-menu');
-fetch('https://dokenedgar.herokuapp.com/api/v1/menu', { headers: { 'authorization': 'Bearer ' + localStorage.fff_token } }).then(function (resp) {
+fetch('http://localhost:3000/api/v1/menu', { headers: { 'authorization': 'Bearer ' + localStorage.fff_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
   var orders = JSON.parse(JSON.stringify(data));
@@ -20,5 +20,5 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/menu', { headers: { 'authorizatio
     checkboxAddToOrder.innerHTML = '<input type="checkbox" name="myCheck" id="myCheck" onchange="addToOrder(this)" value="' + elementf.foodName + ',' + elementf.foodPrice + ',' + 1 + '" >';
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
+  return window.location.href = 'http://localhost:3000/signin';
 });
