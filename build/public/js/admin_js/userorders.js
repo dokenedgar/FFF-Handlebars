@@ -1,8 +1,7 @@
 'use strict';
 
 var tblHistory = document.getElementById('history');
-var status = void 0;
-var updateOrder = void 0;
+
 fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.orderID, { headers: { 'authorization': 'Bearer ' + localStorage.admin_token } }).then(function (resp) {
   return resp.json();
 }).then(function (data) {
@@ -27,10 +26,12 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.ord
       quantity.innerHTML = elementf.quantity;
       price.innerHTML = elementf.price;
       dateOrdered.innerHTML = new Date().toUTCString();
-    });
 
-    status.innerHTML = '<select id="status"><option value=' + element.status + '>' + element.status + '</option><option value="Accepted">Accepted</option><option value="Rejected">Rejected</option><option value="Completed">Completed</option></select>';
-    updateOrder.innerHTML = '<input id="update" value="UPDATE" readonly onclick="updateOrderFunction()">';
+      var status = row.insertCell(6);
+      var updateOrder = row.insertCell(7);
+      status.innerHTML = '<select id="status"><option value=' + element.status + '>' + element.status + '</option><option value="Accepted">Accepted</option><option value="Rejected">Rejected</option><option value="Completed">Completed</option></select>';
+      updateOrder.innerHTML = '<input id="update" value="UPDATE" readonly onclick="updateOrderFunction()">';
+    });
   });
 }).catch(function (err) {
   return window.location.href = console.log(err);
