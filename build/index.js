@@ -267,7 +267,7 @@ app.get('/api/v1/admin/orders/:orderid', function (req, res) {
     }
   });
   if (order.length > 0) {
-    var responseObj = { message: 'Orders for user, with order ID ' + req.params.orderid, numberOfItemsInOrder: order[2].length, order: order };
+    var responseObj = { message: 'Orders for user, with order ID ' + req.params.orderid, order: order };
     res.send(responseObj);
   } else {
     var _responseObj5 = { numberOfOrders: 'No orders for this orderID. Please check whether the order ID is correct.', order: order };
