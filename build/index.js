@@ -123,7 +123,9 @@ app.get('/orders', function (req, res) {
   res.status(200);
   res.sendFile(_path2.default.join(__dirname, '../UI/history.html'));
 });
+
 // api for getting all orders made by a user
+//In challenge 3, solve the conflict between this route and the /api/v1/orders/:id route
 app.get('/api/v1/orders/:user', function (req, res) {
   var order = [];
   orders.forEach(function (element, index) {
