@@ -15,9 +15,11 @@
     "chai": "^4.1.2",
     "chai-http": "^4.2.0",
     "coveralls": "^3.0.2",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
-    "nyc": "^13.0.1"
+    "nyc": "^13.0.1",
+    "pg": "^7.4.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
