@@ -1,10 +1,10 @@
 import express from 'express';
 import path from 'path';
-import User from './src/controllers/userController';
-import AdminUser from './src/controllers/adminUsersController';
-import MenuItem from './src/controllers/menuController';
-import Order from './src/controllers/ordersController';
-import Messages from './src/controllers/messagesController';
+import User from './src/usingJSObject/controllers/userController';
+import AdminUser from './src/usingJSObject/controllers/adminUsersController';
+import MenuItem from './src/usingJSObject/controllers/menuController';
+import Order from './src/usingJSObject/controllers/ordersController';
+import Messages from './src/usingJSObject/controllers/messagesController';
 
 const app = express();
 app.use(express.json());

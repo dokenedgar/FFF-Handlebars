@@ -19,19 +19,19 @@ var Messages = {
   },
   sendMessageToAdmin: function sendMessageToAdmin(req, res) {
     if (!req.body.sender || !req.body.message) {
-      return res.status(400).send({ 'message': 'Problem sending' });
+      return res.status(400).send({ message: 'Problem sending' });
     }
     var newMessage = {
       sender: req.body.sender, message: req.body.message
     };
     var message = _messagesModel.newMessageObject.sendMessagesToAdmin(newMessage);
-    var response = { 'success': true, 'message': 'Message sent successfully', newMessage: newMessage };
+    var response = { success: true, message: 'Message sent successfully', newMessage: newMessage };
     return res.status(201).send(response);
   },
   getMessagesFromUsers: function getMessagesFromUsers(req, res) {
     var messages = _messagesModel.newMessageObject.getMessagesFromUsers();
     if (messages.length > 0) {
-      var responseObj = { 'message': 'messages received by the admin', numberOfMessages: messages.length, messages: messages };
+      var responseObj = { message: 'messages received by the admin', numberOfMessages: messages.length, messages: messages };
       res.status(200).send(responseObj);
     } else {
       var _responseObj2 = { message: 'No messages yet from customers!', numberOfMessages: messages.length, messages: messages };
@@ -39,5 +39,4 @@ var Messages = {
     }
   }
 };
-
 exports.default = Messages;

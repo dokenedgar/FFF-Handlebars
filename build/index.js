@@ -12,23 +12,23 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _userController = require('./src/controllers/userController');
+var _userController = require('./src/usingJSObject/controllers/userController');
 
 var _userController2 = _interopRequireDefault(_userController);
 
-var _adminUsersController = require('./src/controllers/adminUsersController');
+var _adminUsersController = require('./src/usingJSObject/controllers/adminUsersController');
 
 var _adminUsersController2 = _interopRequireDefault(_adminUsersController);
 
-var _menuController = require('./src/controllers/menuController');
+var _menuController = require('./src/usingJSObject/controllers/menuController');
 
 var _menuController2 = _interopRequireDefault(_menuController);
 
-var _ordersController = require('./src/controllers/ordersController');
+var _ordersController = require('./src/usingJSObject/controllers/ordersController');
 
 var _ordersController2 = _interopRequireDefault(_ordersController);
 
-var _messagesController = require('./src/controllers/messagesController');
+var _messagesController = require('./src/usingJSObject/controllers/messagesController');
 
 var _messagesController2 = _interopRequireDefault(_messagesController);
 

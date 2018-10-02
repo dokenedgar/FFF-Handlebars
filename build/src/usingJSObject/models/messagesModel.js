@@ -46,6 +46,9 @@ var Messages = function () {
 		value: function getMessagesFromUsers() {
 			return messagesToAdmin;
 		}
+	}, {
+		key: 'sendMessageToUser',
+		value: function sendMessageToUser() {}
 	}]);
 
 	return Messages;

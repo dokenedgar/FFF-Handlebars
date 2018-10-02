@@ -1,3 +1,6 @@
+import db from '../../../pgdb/dbconfig';
+
+
 export const users = [
   {
     firstname: 'Yakubu', surname: 'Frank', phone: '12345678900', username: 'Franky', password: 'superfrank'
@@ -20,6 +23,13 @@ class UserClass {
       password: data.password
     }
     users.push(newUser);
+    
+     db.query('INSERT INTO users (firstname, surname, phone, username, password) values($1, $2, $3, $4, $5)',
+    [data.firstname, data.surname, data.phone, data.username, data.password], (err)=>{
+      if (err) {
+        console.log(err);
+      }
+    });
     return newUser;
   }
 
