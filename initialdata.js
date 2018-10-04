@@ -1,30 +1,50 @@
-let users = [
-  { fname: 'Yakubu', sname: 'Frank', phone: '12345678900', username: 'Franky', pword: 'superfrank' },
-  { fname: 'David', sname: 'McKenxie', phone: '09876543211', username: 'McDave', pword: 'pword' }
-];
-let adminUsers = [
-  { username: 'lionel', password: 'messi' },
-  { username: 'sergio', password: 'ramos' }
-];
+//{}
+class vehicle{
+	constructor(type, color){
+		this.type = type;
+		this.color = color;
+	}
 
-let orders = [];
-let foodList = [
-  { foodName: 'Spaghetti', foodPrice: '350', foodDesc: 'Nicely cooked nigerian-styled spaghetti' },
-  { foodName: 'Plantain', foodPrice: '100', foodDesc: 'Fresh plantain fried to the perfect degree' },
-  { foodName: 'Pizza', foodPrice: '1000', foodDesc: 'Freshly baked Pizza, with the finest of ingredients' },
-  { foodName: 'Burger', foodPrice: '500', foodDesc: 'Delicious burgers from our seasoned chef' },
-  { foodName: 'Hot Dog', foodPrice: '300', foodDesc: 'Fresh Hot dogs' },
-  { foodName: 'Doughnut', foodPrice: '100', foodDesc: 'Soft and doughnut' },
-  { foodName: 'Fried Chicken', foodPrice: '400', foodDesc: 'Tasty chicken fried to the right degree and right oil' },
-  { foodName: 'Chips', foodPrice: '250', foodDesc: 'Soft and crisp chips!' },
-  { foodName: 'Fried Eggs', foodPrice: '150', foodDesc: 'Quality fried eggs, from healthy chickens with amazing spices' },
-  { foodName: 'Bacon', foodPrice: '650', foodDesc: 'Fine bacon from the healthiest of animals' }
-];
-let messagesToAdmin = [];
-let messagesFromAdmin = [
-  { receiver: 'McDave', message: 'Order received' },
-  { receiver: 'Franky', message: 'Your order of Rice and burger of Monday 4th April has been completed. Thank you for using our service' },
-  { receiver: 'Franky', message: 'Order accepted' },
-  { receiver: 'McDave', message: 'Welcome to Fast Food Fast. Thank you for registering and we hope you have a wonderful experience with us' }
-];
+	move(){
+		console.log(`${this.type} is moving`);
+	}
+	paint(color){
+		console.log(`${this.type} is painted ${color}`);
+	}
+}
+//Use extends keyword to inherit properties of super/base class
+class saloon extends vehicle {
+	constructor(type, color){
+		super(type, color);
+	}
+	// class defines its version of paint method, achieving polymorphism
+	paint(newColor){
+		console.log(`${this.type} is being repainted ${newColor}, from ${this.color}`);
+		this.color = newColor;
+	}
+}
 
+let aToyota = new saloon('car', 'green');
+// move method inherited from superclass
+aToyota.move();
+// uses the paint() method of the inheriting class, not the base class
+aToyota.paint('black');
+
+class School {
+  constructor(type) {
+  	//type of school is hidden in constructor
+    let _type = type;
+	// type of school is returned via a method, and not accessed directly.
+    this.getType = () => {
+      return _type;
+    }
+  }
+}
+
+let primarySchool = new School('primary');
+console.log(primarySchool.getType());
+
+let space = /\s+/;
+console.log(space.test('53fb99a4-fbcd-440'));
+
+console.log();
