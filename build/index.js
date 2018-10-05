@@ -141,7 +141,7 @@ app.get('/users/orders/:orderid', function (req, res) {
 app.get('/api/v1/users/orders/:orderid', verifyToken, _ordersController2.default.getOrdersfromId);
 
 // PLACE AN ORDER
-app.post('/api/v1/orders/:user', verifyToken, _ordersController2.default.create);
+app.post('/api/v1/orders/', verifyToken, _ordersController2.default.create);
 
 app.get('/messages', function (req, res) {
   res.status(200);

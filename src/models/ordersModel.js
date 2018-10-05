@@ -7,7 +7,11 @@ class ordersClass {
  }
 //place Order
   place(data, userid) {
-    const newOrder = {}
+    const newOrder = {
+      orderID: data.orderID,
+      userid,
+      order: data.order
+    }
     
   data.order.forEach( function(element, index) {
     db.query('INSERT INTO orders (orderid, foodid, quantity, status, userid) values($1, $2, $3, $4, $5)',

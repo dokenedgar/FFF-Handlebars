@@ -115,7 +115,7 @@ app.get('/users/orders/:orderid', (req, res) => {
 app.get('/api/v1/users/orders/:orderid', verifyToken, Order.getOrdersfromId);
 
 // PLACE AN ORDER
-app.post('/api/v1/orders/:user', verifyToken, Order.create);
+app.post('/api/v1/orders/', verifyToken, Order.create);
 
 
 app.get('/messages', (req, res) => {

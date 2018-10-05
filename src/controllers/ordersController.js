@@ -6,9 +6,9 @@ const Order = {
     if (!req.body) {
       return res.status(400).send({ message: 'Problem placing order' });
     }
-    let uid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    
     req.body.forEach( (element, index) => {
-      if (element.foodid===undefined || (/\s/.test(element.foodid)) || element.foodid.length !==36 || (uid.test(element.foofid))) {
+      if (element.foodid===undefined || (/\s/.test(element.foodid)) || element.foodid.length !==36 ) {
         return res.status(400).send({ message: 'Problem placing order. Please try again foodid' });
       }
       if (element.quantity===undefined || (/\s/.test(element.quantity)) || element.quantity<1 || (/\D/.test(element.quantity))) {
