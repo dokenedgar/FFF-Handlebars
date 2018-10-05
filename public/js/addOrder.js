@@ -35,6 +35,7 @@ let addToOrder = (CheckBoxelement) => {
     lastAddedElementID.insertAdjacentElement('beforeend', btnminus);
 
     let quantity = document.createElement('INPUT');
+    quantity.type = 'number';
     quantity.setAttribute('id', 'Quant' + detail[0]);
     let quanText = 1; 
     quantity.value = quanText;

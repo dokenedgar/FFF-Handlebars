@@ -9,10 +9,10 @@ const Order = {
     
     req.body.forEach( (element, index) => {
       if (element.foodid===undefined || (/\s/.test(element.foodid)) || element.foodid.length !==36 ) {
-        return res.status(400).send({ message: 'Problem placing order. Please try again foodid' });
+        return res.status(400).send({ message: 'Problem placing order. Endure foodid is a nonspaced uuid' });
       }
       if (element.quantity===undefined || (/\s/.test(element.quantity)) || element.quantity<1 || (/\D/.test(element.quantity))) {
-        return res.status(400).send({ message: 'Problem placing order. Please try again quantity' });
+        return res.status(400).send({ message: 'Problem placing order. Quantity should be  non-spaced integer' });
       }
     });
 
@@ -27,12 +27,12 @@ const Order = {
 
   getUserOrders(req, res) {
     if (!req.params.userid || (req.params.userid.length !== 36 ) || (/\s/.test(req.params.userid)) ) {
-      return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
+      return res.status(400).send({ message: 'Error processing request. User id.should be a non-spaced uuid' });
     }
     newOrdersObject.getOrders(req.params.userid, (err, result)=>{
       
       if (result===undefined) {
-        return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
+        return res.status(400).send({ message: 'Error processing request. Invalid id' });
       }    
     if (result.rowCount === 0) {
       let responseObj = { message: 'Sorry, this user has not made any orders yet..', order:result.rows };
@@ -69,7 +69,7 @@ if (result === undefined) {
   getAllOrders(req, res) {
     const orders = newOrdersObject.getAllOrders((err, result)=>{
        if (result===undefined) {
-        return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
+        return res.status(400).send({ message: 'Error processing request. Please try again' });
       }   
     if (result.rowCount === 0) {
       return res.status(400).send({ message: 'No orders received yet...', numberOfOrders: result.rowCount, orders: result.rows });
@@ -83,10 +83,10 @@ if (result === undefined) {
       return res.status(400).send({ message: 'Problem updating order' });
     }
     if (!req.params.id  || (req.params.id.length !== 36 ) || (/\s/.test(req.params.id)) ) {
-      return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
+      return res.status(400).send({ message: 'Error processing request. Invalid id; it should be a non-spaced uuid' });
     }
-    if (!req.body.status || (req.body.status.length < 2 ) || (req.body.status.length > 20 ) || (/\s/.test(req.body.status)) ) {
-      return res.status(400).send({ message: 'Error processing request. Incorrect status' });
+    if (!req.body.status || (req.body.status.length < 2 ) || (req.body.status.length > 20 ) || (/\s/.test(req.body.status))|| (/\d/.test(req.body.status)) ) {
+      return res.status(400).send({ message: 'Error processing request. Incorrect status.. Status should be a string with no space' });
     }
     newOrdersObject.updateOrderStatus(req.params.id, req.body.status, (err, result)=>{
           // return with affected order as well****
