@@ -123,6 +123,6 @@ let submitOrderButton = () => {
         let obj = JSON.parse(JSON.stringify(data));
         window.location.href = '/orders' ;
       })
-      .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+      .catch((err) => console.log(err))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }
