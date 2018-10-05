@@ -29,7 +29,7 @@ const User = {
       return res.status(400).send({ message: 'All fields required' });
     }
     if (!req.body.username || (req.body.username.length < 5 ) || (req.body.username.length > 20 ) || (/\s/.test(req.body.username)) ) {
-      return res.status(400).send({ message: 'Error processing request. Please enter username with at least 5' });
+      return res.status(400).send({ message: 'Error processing request. Please enter username with at least 5 charcters' });
     }
     if (!req.body.password || (req.body.password.length < 5 ) || (req.body.password.length > 20 ) || (/\s/.test(req.body.password)) ) {
       return res.status(400).send({ message: 'Error processing request. Please enter password of atleast 5 characters' });
