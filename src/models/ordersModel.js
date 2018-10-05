@@ -6,12 +6,12 @@ class ordersClass {
   constructor(){
  }
 //place Order
-  place(data) {
+  place(data, userid) {
     const newOrder = {}
     
   data.order.forEach( function(element, index) {
-    db.query('INSERT INTO orders (orderid, foodid, quantity, status) values($1, $2, $3, $4)',
-    [data.orderID, element.foodid, element.quantity, data.status], (err)=>{
+    db.query('INSERT INTO orders (orderid, foodid, quantity, status, userid) values($1, $2, $3, $4, $5)',
+    [data.orderID, element.foodid, element.quantity, data.status, userid], (err)=>{
       if (err) {
         console.log(err);
       }

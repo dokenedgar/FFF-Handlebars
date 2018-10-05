@@ -36,7 +36,7 @@ if (result === undefined) {
     if (!req.params.foodid) {
       return res.status(400).send({ message: 'All fields required' });
     }
-    if (!req.params.foodid || (req.params.foodid < 2 ) || (req.params.foodid.length > 50 ) || (/\s/.test(req.params.foodid)) ) {
+    if (!req.params.foodid || (req.params.foodid.length !== 36 ) || (/\s/.test(req.params.foodid)) ) {
       return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
     }
     newFoodObject.findFood(req.params.foodid, (err, result)=>{
@@ -54,9 +54,19 @@ if (result === undefined) {
     if (!req.params.foodid) {
       return res.status(400).send({ message: 'All fields required' });
     }
-    if (!req.params.foodid || (req.params.foodid < 2 ) || (req.params.foodid.length > 50 ) || (/\s/.test(req.params.foodid)) ) {
+    if (!req.params.foodid || (req.params.foodid.length !== 36 )  || (/\s/.test(req.params.foodid)) ) {
       return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
     }
+    if (!req.body.foodName || (req.body.foodName.length < 3 ) || (req.body.foodName.length > 50 )  ) {
+      return res.status(400).send({ message: 'Error processing request. Invalid food name' });
+    }
+    if (!req.body.foodPrice || (req.body.foodPrice.length < 2 ) || (req.body.foodPrice.length > 6 )|| (/\s/.test(req.params.foodid)) || (/\D/.test(req.body.foodPrice))  ) {
+      return res.status(400).send({ message: 'Error processing request. Invalid Price. Make sure to use non-spaced integer' });
+    }
+    if (!req.body.foodDescription || (req.body.foodDescription.length < 5 ) || (req.body.foodDescription.length > 100 )  ) {
+      return res.status(400).send({ message: 'Error processing request. Description is not valid.' });
+    }
+
     const food = newFoodObject.updateFoodDetails(req.params.foodid, req.body, (err, result)=>{
        if (result===undefined) {
         return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
@@ -69,7 +79,7 @@ if (result === undefined) {
   },
 
   deleteFood(req, res) {
-    if (!req.params.foodid || (req.params.foodid < 2 ) || (req.params.foodid.length > 50 ) || (/\s/.test(req.params.foodid)) ) {
+    if (!req.params.foodid || (req.params.foodid.length !== 36 ) || (/\s/.test(req.params.foodid)) ) {
       return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
     }
     newFoodObject.deleteFood(req.params.foodid, (err, result)=>{

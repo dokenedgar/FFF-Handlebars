@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _UserModel = require('../models/UserModel');
 
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var User = {
   create: function create(req, res) {
     if (!req.body.firstname || req.body.firstname.length < 2 || req.body.firstname.length > 20 || /\s/.test(req.body.firstname)) {
@@ -24,6 +30,7 @@ var User = {
       return res.status(400).send({ message: 'Error saving data. Please choose a strong password of atleast 5 characters' });
     }
     var user = _UserModel.newUserObject.create(req.body);
+
     var response = { success: true, message: 'New user registered', user: user };
     return res.status(201).send(response);
   },
@@ -47,7 +54,10 @@ var User = {
       if (result.rowCount === 0) {
         return res.status(400).send({ message: 'user not found' });
       }
-      return res.status(200).send({ message: 'user found' });
+      console.log(result.rows);
+      _jsonwebtoken2.default.sign({ userid: result.rows }, '7r3-l4l4', { expiresIn: '24h' }, function (err, token) {
+        return res.status(200).send({ message: 'user found', token: token });
+      });
     });
   }
 };

@@ -6,17 +6,9 @@ var _dbconfig2 = _interopRequireDefault(_dbconfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var queryText = 'CREATE TABLE IF NOT EXISTS\n      users (\n        count SERIAL PRIMARY KEY,\n        firstname VARCHAR(20) NOT NULL,\n        surname VARCHAR(20) NOT NULL,\n        phone VARCHAR(20) NOT NULL,\n        username VARCHAR(20) NOT NULL,\n        password VARCHAR(20) NOT NULL,\n        userid VARCHAR(20) NOT NULL\n      )';
+var queryText = 'CREATE TABLE IF NOT EXISTS\n      users (\n        count SERIAL PRIMARY KEY,\n        firstname VARCHAR(20) NOT NULL,\n        surname VARCHAR(20) NOT NULL,\n        phone VARCHAR(20) NOT NULL,\n        username VARCHAR(20) NOT NULL,\n        password VARCHAR(20) NOT NULL,\n        userid UUID NOT NULL\n      )';
 
 _dbconfig2.default.query(queryText, function (error) {
-  if (error) {
-    console.log(error);
-  }
-});
-
-var queryTextOrders = 'CREATE TABLE IF NOT EXISTS\n      orders (\n        id SERIAL PRIMARY KEY,\n        orderid UUID NOT NULL,\n        foodid UUID NOT NULL,\n        quantity VARCHAR(5) NOT NULL,\n        status VARCHAR(20) NOT NULL\n      )';
-
-_dbconfig2.default.query(queryTextOrders, function (error) {
   if (error) {
     console.log(error);
   }
@@ -25,6 +17,14 @@ _dbconfig2.default.query(queryTextOrders, function (error) {
 var queryTextOrdersSummary = 'CREATE TABLE IF NOT EXISTS\n      ordersummary (\n        id SERIAL PRIMARY KEY,\n        orderid UUID NOT NULL,\n        userid UUID NOT NULL,\n        price INTEGER NOT NULL\n      )';
 
 _dbconfig2.default.query(queryTextOrdersSummary, function (error) {
+  if (error) {
+    console.log(error);
+  }
+});
+
+var queryTextOrders = 'CREATE TABLE IF NOT EXISTS\n      orders (\n        id SERIAL PRIMARY KEY,\n        orderid UUID NOT NULL,\n        foodid UUID NOT NULL,\n        quantity VARCHAR(5) NOT NULL,\n        status VARCHAR(20) NOT NULL,\n        userid UUID NOT NULL\n      )';
+
+_dbconfig2.default.query(queryTextOrders, function (error) {
   if (error) {
     console.log(error);
   }

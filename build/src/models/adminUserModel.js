@@ -19,8 +19,8 @@ var adminClass = function () {
     key: 'create',
     value: function create(data) {
       var newAdmin = {
-        username: data.username,
-        password: data.password
+        username: data.username
+
       };
       adminUsers.push(newAdmin);
       return newAdmin;

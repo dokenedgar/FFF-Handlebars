@@ -2,8 +2,8 @@ import { messagesFromAdmin, messagesToAdmin, newMessageObject } from '../models/
 
 const Messages = {
   getMessageFromAdmin(req, res){
-    if (!req.params.userid) {
-      return res.status(400).send({ message: 'All fields required' });
+    if (!req.params.userid || (req.params.userid.length !== 36 ) || (/\s/.test(req.params.userid))) {
+      return res.status(400).send({ message: 'Cannot load messages, User id is invalid' });
     }
     newMessageObject.getMessagesFromAdmin(req.params.userid, (err, result)=>{
      if (result===undefined) {
@@ -17,9 +17,12 @@ const Messages = {
 },
 
   sendMessageToAdmin(req, res) {
-    if (!req.body.sender|| !req.body.message) {
-      return res.status(400).send({ message: 'Problem sending' });
+    if (!req.body.message || (req.body.message.length < 5) || (req.body.message.length > 200)) {
+      return res.status(400).send({ message: 'Problem sending. Check the body of your message' });
     }
+    if (!req.body.sender|| (req.body.sender.length !==36) || (/\s/.test(req.body.sender))) {
+      return res.status(400).send({ message: 'Problem sending. Check the sender id' });
+    } //?Add userid 
     const newMessage = {
       sender: req.body.sender, message: req.body.message
     };
@@ -30,7 +33,9 @@ const Messages = {
 
   getMessagesFromUsers(req, res) {
     const messages = newMessageObject.getMessagesFromUsers( (err, result)=>{
-          
+      if (result===undefined) {
+        return res.status(400).send({ message: 'Error processing request. ' });
+      }     
     if (result.rowCount === 0) {
       return res.status(400).send({ message: 'No messages yet from customers!..',  numberOfMessages: result.rowCount, messages: result.rows});
     }
@@ -39,8 +44,11 @@ const Messages = {
   },
 
   sendMessageToUsers(req, res) {
-    if (!req.body.receiver|| !req.body.message) {
-      return res.status(400).send({ message: 'Problem sending' });
+    if (!req.body.message || (req.body.message.length < 5) || (req.body.message.length > 200)) {
+      return res.status(400).send({ message: 'Problem sending. Check the body of your message' });
+    }
+    if (!req.body.receiver|| (req.body.receiver.length !==36) || (/\s/.test(req.body.receiver))) {
+      return res.status(400).send({ message: 'Problem sending. Check the sender id' });
     }
     const newMessage = {
       receiver: req.body.receiver, message: req.body.message

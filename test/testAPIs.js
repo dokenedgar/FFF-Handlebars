@@ -29,7 +29,7 @@ describe('Userstest with chai http', function () {
 
   it('user authentication - user not found', () => {
     return chai.request(app)
-      .post('/signin')
+      .post('/api/v1/auth/login')
       send({
         username: 'peter007',
         password: 'm@rkp3t3r'
@@ -43,7 +43,7 @@ describe('Userstest with chai http', function () {
 
   it('user authentication - user found', () => {
     return chai.request(app)
-      .post('/signin')
+      .post('/api/v1/auth/login')
       send({
         username: 'McDave',
         password: 'pword'
@@ -51,7 +51,7 @@ describe('Userstest with chai http', function () {
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.userFound).to.equal(true);
+        jwtToken = res.body.token;
       });
   });
 
@@ -65,7 +65,7 @@ describe('Userstest with chai http', function () {
 
  it('signin up a new user', () => {
     return chai.request(app)
-      .post('/signup')
+      .post('/api/v1/auth/signup')
       .send({
         firstname: 'Peter',
         surname: 'Mark',
@@ -74,7 +74,7 @@ describe('Userstest with chai http', function () {
         password: 'm@rkp3t3r'
       })
       .then((res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
         expect(res.body.newUser.firstname).to.equal('Peter');
       });
@@ -105,7 +105,7 @@ describe('Userstest with chai http', function () {
         expect(res).to.have.status(200);
       });
   });
-
+//admin====
   it('api endpoint for getting users orders', () => {
     return chai.request(app)
       .get('/api/v1/orders/ausername')
@@ -115,10 +115,11 @@ describe('Userstest with chai http', function () {
         expect(res.body).to.be.an('object');
       });
   });
+  //admin====
 
   it('getting a users specific order history', () => {
     return chai.request(app)
-      .get('/orders/orderid')
+      .get('/users')
       .then((res) => {
         expect(res).to.have.status(200);
       });
@@ -126,14 +127,14 @@ describe('Userstest with chai http', function () {
 
   it('api endpoint for getting users specific order', () => {
     return chai.request(app)
-      .get('/api/v1/orders/orderid')
+      .get('/api/v1/users/orders/:orderid')
       .set('authorization', `Bearer ${jwtToken}`)
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
       });
   });
-
+//Where we stopped
   it('api for placing a new order', () => {
     return chai.request(app)
       .post('/api/v1/orders/Peter')

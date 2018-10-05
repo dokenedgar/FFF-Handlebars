@@ -9,29 +9,13 @@ const queryText =
         phone VARCHAR(20) NOT NULL,
         username VARCHAR(20) NOT NULL,
         password VARCHAR(20) NOT NULL,
-        userid VARCHAR(20) NOT NULL
+        userid UUID NOT NULL
       )`;
 
 db.query(queryText, (error)=>{
 	if (error) {
 		console.log(error);
 	}
-});
-
-const queryTextOrders =
-    `CREATE TABLE IF NOT EXISTS
-      orders (
-        id SERIAL PRIMARY KEY,
-        orderid UUID NOT NULL,
-        foodid UUID NOT NULL,
-        quantity VARCHAR(5) NOT NULL,
-        status VARCHAR(20) NOT NULL
-      )`;
-
-db.query(queryTextOrders, (error)=>{
-  if (error) {
-    console.log(error);
-  }
 });
 
 const queryTextOrdersSummary =
@@ -44,6 +28,23 @@ const queryTextOrdersSummary =
       )`;
 
 db.query(queryTextOrdersSummary, (error)=>{
+  if (error) {
+    console.log(error);
+  }
+});
+
+const queryTextOrders =
+    `CREATE TABLE IF NOT EXISTS
+      orders (
+        id SERIAL PRIMARY KEY,
+        orderid UUID NOT NULL,
+        foodid UUID NOT NULL,
+        quantity VARCHAR(5) NOT NULL,
+        status VARCHAR(20) NOT NULL,
+        userid UUID NOT NULL
+      )`;
+
+db.query(queryTextOrders, (error)=>{
   if (error) {
     console.log(error);
   }

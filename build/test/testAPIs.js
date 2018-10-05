@@ -34,7 +34,7 @@ describe('Userstest with chai http', function () {
   });
 
   it('user authentication - user not found', function () {
-    return _chai2.default.request(_index2.default).post('/signin');
+    return _chai2.default.request(_index2.default).post('/api/v1/auth/login');
     send({
       username: 'peter007',
       password: 'm@rkp3t3r'
@@ -46,14 +46,14 @@ describe('Userstest with chai http', function () {
   });
 
   it('user authentication - user found', function () {
-    return _chai2.default.request(_index2.default).post('/signin');
+    return _chai2.default.request(_index2.default).post('/api/v1/auth/login');
     send({
       username: 'McDave',
       password: 'pword'
     }).then(function (res) {
       (0, _chai.expect)(res).to.have.status(200);
       (0, _chai.expect)(res.body).to.be.an('object');
-      (0, _chai.expect)(res.body.userFound).to.equal(true);
+      jwtToken = res.body.token;
     });
   });
 
@@ -64,14 +64,14 @@ describe('Userstest with chai http', function () {
   });
 
   it('signin up a new user', function () {
-    return _chai2.default.request(_index2.default).post('/signup').send({
+    return _chai2.default.request(_index2.default).post('/api/v1/auth/signup').send({
       firstname: 'Peter',
       surname: 'Mark',
       phone: '08098273465',
       username: 'peter007',
       password: 'm@rkp3t3r'
     }).then(function (res) {
-      (0, _chai.expect)(res).to.have.status(200);
+      (0, _chai.expect)(res).to.have.status(201);
       (0, _chai.expect)(res.body).to.be.an('object');
       (0, _chai.expect)(res.body.newUser.firstname).to.equal('Peter');
     });
@@ -95,27 +95,28 @@ describe('Userstest with chai http', function () {
       (0, _chai.expect)(res).to.have.status(200);
     });
   });
-
+  //admin====
   it('api endpoint for getting users orders', function () {
     return _chai2.default.request(_index2.default).get('/api/v1/orders/ausername').set('authorization', 'Bearer ' + jwtToken).then(function (res) {
       (0, _chai.expect)(res).to.have.status(200);
       (0, _chai.expect)(res.body).to.be.an('object');
     });
   });
+  //admin====
 
   it('getting a users specific order history', function () {
-    return _chai2.default.request(_index2.default).get('/orders/orderid').then(function (res) {
+    return _chai2.default.request(_index2.default).get('/users').then(function (res) {
       (0, _chai.expect)(res).to.have.status(200);
     });
   });
 
   it('api endpoint for getting users specific order', function () {
-    return _chai2.default.request(_index2.default).get('/api/v1/orders/orderid').set('authorization', 'Bearer ' + jwtToken).then(function (res) {
+    return _chai2.default.request(_index2.default).get('/api/v1/users/orders/:orderid').set('authorization', 'Bearer ' + jwtToken).then(function (res) {
       (0, _chai.expect)(res).to.have.status(200);
       (0, _chai.expect)(res.body).to.be.an('object');
     });
   });
-
+  //Where we stopped
   it('api for placing a new order', function () {
     return _chai2.default.request(_index2.default).post('/api/v1/orders/Peter').set('authorization', 'Bearer ' + jwtToken).send({
       body: [{ food: 'Rice', price: '350', quantity: '1' }]

@@ -6,9 +6,9 @@ const Order = {
     if (!req.body) {
       return res.status(400).send({ message: 'Problem placing order' });
     }
-    console.log(req.body);
-    req.body.forEach( function(element, index) {
-      if (element.foodid===undefined || (/\s/.test(element.foodid)) || element.foodid.length !==36) {
+    let uid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    req.body.forEach( (element, index) => {
+      if (element.foodid===undefined || (/\s/.test(element.foodid)) || element.foodid.length !==36 || (uid.test(element.foofid))) {
         return res.status(400).send({ message: 'Problem placing order. Please try again foodid' });
       }
       if (element.quantity===undefined || (/\s/.test(element.quantity)) || element.quantity<1 || (/\D/.test(element.quantity))) {
@@ -20,7 +20,7 @@ const Order = {
     const newOrder = {
       orderID: orderId, order: req.body, status: 'pending'
     };
-    const order = newOrdersObject.place(newOrder);
+    const order = newOrdersObject.place(newOrder, req.userid);
     const response = { success: true, message: 'Order placed successfully', order }
     return res.status(201).send(response);
   },
@@ -82,7 +82,7 @@ if (result === undefined) {
     if (!req.body.status) {
       return res.status(400).send({ message: 'Problem updating order' });
     }
-    if (!req.params.id  || (req.params.orderid.length !== 36 ) || (/\s/.test(req.params.id)) ) {
+    if (!req.params.id  || (req.params.id.length !== 36 ) || (/\s/.test(req.params.id)) ) {
       return res.status(400).send({ message: 'Error processing request. Incorrect / invalid id' });
     }
     if (!req.body.status || (req.body.status.length < 2 ) || (req.body.status.length > 20 ) || (/\s/.test(req.body.status)) ) {

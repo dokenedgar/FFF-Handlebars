@@ -1,4 +1,5 @@
 import { users, newUserObject } from '../models/UserModel';
+import jwt from 'jsonwebtoken';
 
 const User = {
   create(req, res) {
@@ -18,7 +19,8 @@ const User = {
       return res.status(400).send({ message: 'Error saving data. Please choose a strong password of atleast 5 characters' });
     }
     const user = newUserObject.create(req.body);
-    const response = { success: true, message: 'New user registered', user }
+    
+    const response = { success: true, message: 'New user registered', user};
     return res.status(201).send(response);
   },
   // other methods here
@@ -40,9 +42,15 @@ const User = {
     if (result.rowCount === 0) {
       return res.status(400).send({ message: 'user not found' });
     }
-    return res.status(200).send({ message: 'user found' });
+    console.log(result.rows);
+    jwt.sign({ userid: result.rows}, '7r3-l4l4', { expiresIn:'24h' }, (err, token) => {
+        return res.status(200).send({ message: 'user found', token });
+      });
+    
+    
     });
 
-  }
+  },
+
 }
 export default User;

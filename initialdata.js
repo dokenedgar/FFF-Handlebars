@@ -45,6 +45,6 @@ let primarySchool = new School('primary');
 console.log(primarySchool.getType());
 
 let space = /\s+/;
-console.log(space.test('53fb99a4-fbcd-440'));
+console.log(space.test('53fb99a4-f bcd-440'));
 
 console.log();

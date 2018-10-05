@@ -32,6 +32,10 @@ var _messagesController = require('./src/controllers/messagesController');
 
 var _messagesController2 = _interopRequireDefault(_messagesController);
 
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -64,10 +68,39 @@ function verifyToken(req, res, next) {
     var bearerToken = bearer[1];
     req.token = bearerToken;
     // Add verification of the token here as well.
-    // Such that when the route is finally reached, just send back the data
-    next();
+    // Such that when the route is finally reached, just perform the requested action
+    _jsonwebtoken2.default.verify(req.token, '7r3-l4l4', function (err, authData) {
+      if (err) {
+        res.status(403).send({ message: 'Token not valid for this session.' });;
+      } else {
+        // console.log(authData.userid[0].userid);
+        req.userid = authData.userid[0].userid;
+        next();
+      }
+    });
   } else {
-    res.sendStatus(403);
+    res.status(403).send({ message: 'Token not found in request.' });;
+  }
+}
+function adminverifyToken(req, res, next) {
+  var bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    var bearer = bearerHeader.split(' ');
+    var bearerToken = bearer[1];
+    req.token = bearerToken;
+    // Add verification of the token here as well.
+    // Such that when the route is finally reached, just perform the requested action
+    _jsonwebtoken2.default.verify(req.token, '4dm1#-7t3', function (err, authData) {
+      if (err) {
+        res.status(403).send({ message: 'Token not valid for this session.' });;
+      } else {
+        // console.log(authData.userid[0].userid);
+        // req.adminid = authData.userid[0].userid;
+        next();
+      }
+    });
+  } else {
+    res.status(403).send({ message: 'Token not found in request.' });;
   }
 }
 // =======================================================>
@@ -88,7 +121,7 @@ app.get('/menu', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/dashboard.html'));
 });
 
-app.get('/api/v1/menu', _menuController2.default.getAllMenu);
+app.get('/api/v1/menu', verifyToken, _menuController2.default.getAllMenu);
 
 // html for getting all orders by a user
 app.get('/users', function (req, res) {
@@ -97,7 +130,7 @@ app.get('/users', function (req, res) {
 });
 
 // api for getting all orders made by a user
-app.get('/api/v1/users/:userid/orders', _ordersController2.default.getUserOrders);
+app.get('/api/v1/users/:userid/orders', verifyToken, _ordersController2.default.getUserOrders);
 
 // html for getting specific orders using order id, its api is below it
 app.get('/users/orders/:orderid', function (req, res) {
@@ -105,45 +138,26 @@ app.get('/users/orders/:orderid', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/getorder.html'));
 });
 
-app.get('/api/v1/users/orders/:orderid', _ordersController2.default.getOrdersfromId);
+app.get('/api/v1/users/orders/:orderid', verifyToken, _ordersController2.default.getOrdersfromId);
 
 // PLACE AN ORDER
-app.post('/api/v1/orders/:user', _ordersController2.default.create);
+app.post('/api/v1/orders/:user', verifyToken, _ordersController2.default.create);
 
 app.get('/messages', function (req, res) {
   res.status(200);
   res.sendFile(_path2.default.join(__dirname, '../UI/messages.html'));
 });
 
-app.get('/api/v1/messages/:userid', _messagesController2.default.getMessageFromAdmin);
+app.get('/api/v1/messages/:userid', verifyToken, _messagesController2.default.getMessageFromAdmin);
 
-app.post('/api/v1/messages/', _messagesController2.default.sendMessageToAdmin);
+app.post('/api/v1/messages/', verifyToken, _messagesController2.default.sendMessageToAdmin);
 
 // ADMIN
 app.get('/admin', function (req, res) {
   res.status(200);
   res.sendFile(_path2.default.join(__dirname, '../UI/adminsignin.html'));
 });
-/*
-app.post('/api/v1/admin', (req, res) => {
-  const result = { userFound: false };
-  const signInUser = {
-    username: req.body.username, password: req.body.password
-  };
-  adminUsers.forEach((element) => {
-    if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
-      result.userFound = true;
-      result.message = 'Valid login details';
-      res.status(200);
-      res.send(result);
-  }
-});
-  if (!result.userFound) {
-    res.status(200);
-    result.message = 'Login not successful. Check your login details';
-    res.send(result);
-  }
-});*/
+
 app.post('/api/v1/admin', _adminUserController2.default.getUser);
 
 app.get('/orders', function (req, res) {
@@ -151,18 +165,18 @@ app.get('/orders', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/admindashboard.html'));
 });
 
-app.get('/api/v1/orders', _ordersController2.default.getAllOrders);
+app.get('/api/v1/orders', adminverifyToken, _ordersController2.default.getAllOrders);
 
 // GET A USERS ORDERS
-app.get('/orders/:orderid', function (req, res) {
+app.get('/orders/:orderid', adminverifyToken, function (req, res) {
   res.status(200);
   res.sendFile(_path2.default.join(__dirname, '../UI/userorders.html'));
 });
 
-app.get('/api/v1/orders/:orderid', _ordersController2.default.getOrdersfromId);
+app.get('/api/v1/orders/:orderid', adminverifyToken, _ordersController2.default.getOrdersfromId);
 
 // Update status of an order
-app.put('/api/v1/orders/:id', _ordersController2.default.updateOrderStatus);
+app.put('/api/v1/orders/:id', adminverifyToken, _ordersController2.default.updateOrderStatus);
 
 // FOOD LIST
 app.get('/menu', function (req, res) {
@@ -178,7 +192,7 @@ app.get('/admin/addfood', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/adminaddfood.html'));
 });
 
-app.post('/api/v1/menu', _menuController2.default.create);
+app.post('/api/v1/menu', adminverifyToken, _menuController2.default.create);
 
 // EDIT A FOOD DETAILS
 app.get('/admin/editfood', function (req, res) {
@@ -186,9 +200,9 @@ app.get('/admin/editfood', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/admineditfood.html'));
 });
 
-app.get('/api/v1/menu/:foodid', _menuController2.default.getSingleFood);
+app.get('/api/v1/menu/:foodid', adminverifyToken, _menuController2.default.getSingleFood);
 
-app.put('/api/v1/menu/:foodid', _menuController2.default.updateFoodDetails);
+app.put('/api/v1/menu/:foodid', adminverifyToken, _menuController2.default.updateFoodDetails);
 
 // DELETE FOOD =================================================>
 app.get('/admin/deletefood', function (req, res) {
@@ -196,7 +210,7 @@ app.get('/admin/deletefood', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/admindeletefood.html'));
 });
 
-app.delete('/api/v1/menu/:foodid', _menuController2.default.deleteFood);
+app.delete('/api/v1/menu/:foodid', adminverifyToken, _menuController2.default.deleteFood);
 // ==========================================================>
 
 
@@ -206,9 +220,9 @@ app.get('/admin/messages', function (req, res) {
   res.sendFile(_path2.default.join(__dirname, '../UI/adminmessages.html'));
 });
 
-app.get('/api/v1/admin/messages', _messagesController2.default.getMessagesFromUsers);
+app.get('/api/v1/admin/messages', adminverifyToken, _messagesController2.default.getMessagesFromUsers);
 
-app.post('/api/v1/admin/messages', _messagesController2.default.sendMessageToUsers);
+app.post('/api/v1/admin/messages', adminverifyToken, _messagesController2.default.sendMessageToUsers);
 
 // custom 404 page
 app.use(function (req, res) {

@@ -5,7 +5,7 @@ import AdminUser from './src/controllers/adminUserController';
 import MenuItem from './src/controllers/menuController';
 import Order from './src/controllers/ordersController';
 import Messages from './src/controllers/messagesController';
-
+import jwt from 'jsonwebtoken';
 const app = express();
 app.use(express.json());
 
@@ -36,11 +36,45 @@ function verifyToken(req, res, next) {
     const bearerToken = bearer[1];
     req.token = bearerToken;
     // Add verification of the token here as well.
-    // Such that when the route is finally reached, just send back the data
-    next();
+    // Such that when the route is finally reached, just perform the requested action
+    jwt.verify(req.token, '7r3-l4l4', (err, authData) => {
+      if (err) {
+        res.status(403).send({ message: 'Token not valid for this session.' });;
+      }   
+      else {
+        // console.log(authData.userid[0].userid);
+        req.userid = authData.userid[0].userid;
+          next();
+        }
+      });
+    
   }
   else {
-    res.sendStatus(403);
+    res.status(403).send({ message: 'Token not found in request.' });;
+  }
+}
+function adminverifyToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    // Add verification of the token here as well.
+    // Such that when the route is finally reached, just perform the requested action
+    jwt.verify(req.token, '4dm1#-7t3', (err, authData) => {
+      if (err) {
+        res.status(403).send({ message: 'Token not valid for this session.' });;
+      }   
+      else {
+        // console.log(authData.userid[0].userid);
+       // req.adminid = authData.userid[0].userid;
+          next();
+        }
+      });
+    
+  }
+  else {
+    res.status(403).send({ message: 'Token not found in request.' });;
   }
 }
 // =======================================================>
@@ -61,7 +95,7 @@ app.get('/menu', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/dashboard.html'));
 });
 
-app.get('/api/v1/menu', MenuItem.getAllMenu);
+app.get('/api/v1/menu', verifyToken, MenuItem.getAllMenu);
 
 // html for getting all orders by a user
 app.get('/users', (req, res) => {
@@ -70,7 +104,7 @@ app.get('/users', (req, res) => {
 });
 
 // api for getting all orders made by a user
-app.get('/api/v1/users/:userid/orders', Order.getUserOrders);
+app.get('/api/v1/users/:userid/orders', verifyToken, Order.getUserOrders);
 
 // html for getting specific orders using order id, its api is below it
 app.get('/users/orders/:orderid', (req, res) => {
@@ -78,10 +112,10 @@ app.get('/users/orders/:orderid', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/getorder.html'));
 });
 
-app.get('/api/v1/users/orders/:orderid', Order.getOrdersfromId);
+app.get('/api/v1/users/orders/:orderid', verifyToken, Order.getOrdersfromId);
 
 // PLACE AN ORDER
-app.post('/api/v1/orders/:user', Order.create);
+app.post('/api/v1/orders/:user', verifyToken, Order.create);
 
 
 app.get('/messages', (req, res) => {
@@ -89,35 +123,16 @@ app.get('/messages', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/messages.html'));
 });
 
-app.get('/api/v1/messages/:userid', Messages.getMessageFromAdmin);
+app.get('/api/v1/messages/:userid', verifyToken, Messages.getMessageFromAdmin);
 
-app.post('/api/v1/messages/', Messages.sendMessageToAdmin);
+app.post('/api/v1/messages/', verifyToken, Messages.sendMessageToAdmin);
 
 // ADMIN
 app.get('/admin', (req, res) => {
   res.status(200);
   res.sendFile(path.join(__dirname, '../UI/adminsignin.html'));
 });
-/*
-app.post('/api/v1/admin', (req, res) => {
-  const result = { userFound: false };
-  const signInUser = {
-    username: req.body.username, password: req.body.password
-  };
-  adminUsers.forEach((element) => {
-    if ((element.username === signInUser.username) && (element.password === signInUser.password)) {
-      result.userFound = true;
-      result.message = 'Valid login details';
-      res.status(200);
-      res.send(result);
-  }
-});
-  if (!result.userFound) {
-    res.status(200);
-    result.message = 'Login not successful. Check your login details';
-    res.send(result);
-  }
-});*/
+
 app.post('/api/v1/admin', AdminUser.getUser);
 
 app.get('/orders', (req, res) => {
@@ -125,18 +140,18 @@ app.get('/orders', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/admindashboard.html'));
 });
 
-app.get('/api/v1/orders', Order.getAllOrders);
+app.get('/api/v1/orders', adminverifyToken, Order.getAllOrders);
 
 // GET A USERS ORDERS
-app.get('/orders/:orderid', (req, res) => {
+app.get('/orders/:orderid', adminverifyToken, (req, res) => {
   res.status(200);
   res.sendFile(path.join(__dirname, '../UI/userorders.html'));
 });
 
-app.get('/api/v1/orders/:orderid', Order.getOrdersfromId);
+app.get('/api/v1/orders/:orderid', adminverifyToken, Order.getOrdersfromId);
 
 // Update status of an order
-app.put('/api/v1/orders/:id', Order.updateOrderStatus);
+app.put('/api/v1/orders/:id', adminverifyToken, Order.updateOrderStatus);
 
 // FOOD LIST
 app.get('/menu', (req, res) => {
@@ -152,7 +167,7 @@ app.get('/admin/addfood', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/adminaddfood.html'));
 });
 
-app.post('/api/v1/menu', MenuItem.create);
+app.post('/api/v1/menu', adminverifyToken, MenuItem.create);
 
 
 // EDIT A FOOD DETAILS
@@ -161,9 +176,9 @@ app.get('/admin/editfood', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/admineditfood.html'));
 });
 
-app.get('/api/v1/menu/:foodid', MenuItem.getSingleFood);
+app.get('/api/v1/menu/:foodid', adminverifyToken, MenuItem.getSingleFood);
 
-app.put('/api/v1/menu/:foodid', MenuItem.updateFoodDetails);
+app.put('/api/v1/menu/:foodid', adminverifyToken, MenuItem.updateFoodDetails);
 
 
 // DELETE FOOD =================================================>
@@ -172,7 +187,7 @@ app.get('/admin/deletefood', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/admindeletefood.html'));
 });
 
-app.delete('/api/v1/menu/:foodid', MenuItem.deleteFood);
+app.delete('/api/v1/menu/:foodid', adminverifyToken, MenuItem.deleteFood);
 // ==========================================================>
 
 
@@ -182,9 +197,9 @@ app.get('/admin/messages', (req, res) => {
   res.sendFile(path.join(__dirname, '../UI/adminmessages.html'));
 });
 
-app.get('/api/v1/admin/messages', Messages.getMessagesFromUsers);
+app.get('/api/v1/admin/messages', adminverifyToken, Messages.getMessagesFromUsers);
 
-app.post('/api/v1/admin/messages', Messages.sendMessageToUsers);
+app.post('/api/v1/admin/messages', adminverifyToken, Messages.sendMessageToUsers);
 
 // custom 404 page
 app.use((req, res) => {

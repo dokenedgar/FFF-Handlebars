@@ -26,11 +26,11 @@ var ordersClass = function () {
 
   _createClass(ordersClass, [{
     key: 'place',
-    value: function place(data) {
+    value: function place(data, userid) {
       var newOrder = {};
 
       data.order.forEach(function (element, index) {
-        _dbconfig2.default.query('INSERT INTO orders (orderid, foodid, quantity, status) values($1, $2, $3, $4)', [data.orderID, element.foodid, element.quantity, data.status], function (err) {
+        _dbconfig2.default.query('INSERT INTO orders (orderid, foodid, quantity, status, userid) values($1, $2, $3, $4, $5)', [data.orderID, element.foodid, element.quantity, data.status, userid], function (err) {
           if (err) {
             console.log(err);
           }
