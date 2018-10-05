@@ -16,6 +16,6 @@ let addFood = () =>{
       	signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food added successfully';
       })
-      .catch((error) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+      .catch((error) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }

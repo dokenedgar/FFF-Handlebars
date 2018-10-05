@@ -23,4 +23,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/orders/' + localStorage.orderID, 
       });
     });
   })
-  .catch((err) => window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
