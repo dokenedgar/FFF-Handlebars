@@ -20,5 +20,5 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/menu', { headers: { 'authorizatio
     checkboxAddToOrder.innerHTML = '<input type="checkbox" name="myCheck" id="myCheck" onchange="addToOrder(this)" value="' + elementf.foodName + ',' + elementf.foodPrice + ',' + 1 + '" >';
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return console.log(err);
+}); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')

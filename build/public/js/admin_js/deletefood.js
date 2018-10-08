@@ -38,8 +38,8 @@ var getDetails = function getDetails() {
 
     btngetDetails.style.display = 'none';
   }).catch(function (err) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-  });
+    return console.log(error);
+  }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 };
 
 var deleteDetails = function deleteDetails() {
@@ -55,6 +55,6 @@ var deleteDetails = function deleteDetails() {
     signInerrors.style.color = 'red';
     signInerrors.innerHTML = 'Food deleted successfully';
   }).catch(function (error) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-  });
+    return console.log(error);
+  }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 };

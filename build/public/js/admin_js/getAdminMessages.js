@@ -19,8 +19,8 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/messages', { headers: { 'au
     dateReceived.innerHTML = new Date().toUTCString();
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return console.log(error);
+}); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 
 var sendAdminMsg = function sendAdminMsg() {
   var name = document.getElementById('msgName').value;
@@ -44,7 +44,7 @@ var sendAdminMsg = function sendAdminMsg() {
         signInerrors.innerHTML = 'Problem sending message. Possibly check receiver username..';
       }
     }).catch(function (error) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-    });
+      return console.log(error);
+    }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 };

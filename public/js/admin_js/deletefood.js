@@ -36,7 +36,7 @@ let getDetails = () => {
 
       btngetDetails.style.display = 'none';
     })
-    .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+    .catch((err) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }
 
 let deleteDetails = () => {
@@ -51,5 +51,5 @@ let deleteDetails = () => {
   })
     .then((resp) => { signInerrors.style.color = 'red';
       signInerrors.innerHTML = 'Food deleted successfully'; })
-    .catch((error) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+    .catch((error) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }

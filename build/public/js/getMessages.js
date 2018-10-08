@@ -18,8 +18,8 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/messages/' + localStorage.loggedU
     dateReceived.innerHTML = new Date().toUTCString();
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return console.log(err);
+}); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 
 var sendMsg = function sendMsg() {
   name = localStorage.loggedUser;
@@ -37,7 +37,7 @@ var sendMsg = function sendMsg() {
       signInerrors.style.color = 'green';
       signInerrors.innerHTML = 'Message sent successfully';
     }).catch(function (error) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-    });
+      return console.log(err);
+    }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 };

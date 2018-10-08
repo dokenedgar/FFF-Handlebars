@@ -16,7 +16,7 @@ var addFood = function addFood() {
       signInerrors.style.color = 'green';
       signInerrors.innerHTML = 'Food added successfully';
     }).catch(function (error) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-    });
+      return console.log(error);
+    }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 };

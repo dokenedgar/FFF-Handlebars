@@ -22,7 +22,7 @@ var adminsignin = function adminsignin() {
         signInerrors.innerHTML = 'Username or password incorrect';
       }
     }).catch(function (err) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-    });
+      return console.log(error);
+    }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin' )
   }
 };

@@ -25,5 +25,5 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/orders/' + localStorage.loggedUse
     });
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return console.log(err);
+}); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')

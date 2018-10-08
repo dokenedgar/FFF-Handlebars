@@ -28,5 +28,5 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders', { headers: { 'auth
     });
   });
 }).catch(function (err) {
-  return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-});
+  return console.log(error);
+}); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')

@@ -37,6 +37,7 @@ var addToOrder = function addToOrder(CheckBoxelement) {
     lastAddedElementID.insertAdjacentElement('beforeend', btnminus);
 
     var quantity = document.createElement('INPUT');
+    quantity.type = 'number';
     quantity.setAttribute('id', 'Quant' + detail[0]);
     var quanText = 1;
     quantity.value = quanText;
@@ -115,7 +116,7 @@ var submitOrderButton = function submitOrderButton() {
       var obj = JSON.parse(JSON.stringify(data));
       window.location.href = '/orders';
     }).catch(function (err) {
-      return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-    });
+      return console.log(err);
+    }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 };

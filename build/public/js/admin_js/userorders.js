@@ -34,8 +34,8 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.ord
     });
   });
 }).catch(function (err) {
-  return window.location.href = console.log(err);
-}); //'https://dokenedgar.herokuapp.com/signin')
+  return console.log(error);
+}); //window.location.href = console.log(err)) //'https://dokenedgar.herokuapp.com/signin')
 
 var updateOrderFunction = function updateOrderFunction() {
   //Send data to server
@@ -49,6 +49,6 @@ var updateOrderFunction = function updateOrderFunction() {
   }).then(function (data) {
     window.location.href = 'https://dokenedgar.herokuapp.com/admin/orders/' + localStorage.orderID;
   }).catch(function (err) {
-    return window.location.href = 'https://dokenedgar.herokuapp.com/signin';
-  });
+    return console.log(error);
+  }); //window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 };

@@ -22,6 +22,6 @@ let adminsignin = () => {
           signInerrors.innerHTML = 'Username or password incorrect';
         }
       })
-      .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin' )
+      .catch((err) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin' )
   }
 }

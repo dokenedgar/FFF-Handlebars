@@ -32,7 +32,7 @@ let getDetails = () => {
       btngetDetails.style.display = 'none';
 
     })
-    .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+    .catch((err) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }
 
 let updateDetails = () =>{
@@ -51,6 +51,6 @@ let updateDetails = () =>{
     })
       .then((resp) => { signInerrors.style.color = 'green';
         signInerrors.innerHTML = 'Food edited successfully'; })
-      .catch((error) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+      .catch((error) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
   }
 }

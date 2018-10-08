@@ -16,4 +16,4 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/foodlists', { headers: { 'a
       price.innerHTML = elementf.foodPrice;
     });
   })
-  .catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')

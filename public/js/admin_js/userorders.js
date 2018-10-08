@@ -34,7 +34,7 @@ fetch('https://dokenedgar.herokuapp.com/api/v1/admin/orders/' + localStorage.ord
       
     });
   })
-  .catch((err) => )//window.location.href = console.log(err)) //'https://dokenedgar.herokuapp.com/signin')
+  .catch((err) => console.log(error))//window.location.href = console.log(err)) //'https://dokenedgar.herokuapp.com/signin')
 
 let updateOrderFunction = () => {
 			//Send data to server
@@ -48,5 +48,5 @@ let updateOrderFunction = () => {
 		.then((data) => { 
 					window.location.href = 'https://dokenedgar.herokuapp.com/admin/orders/'+localStorage.orderID;
 				 })
-		.catch((err) => )//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
+		.catch((err) => console.log(error))//window.location.href = 'https://dokenedgar.herokuapp.com/signin')
 }
